@@ -177,6 +177,26 @@ class dbsetup():
                 rows = cur.fetchall()
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
+		# create our words table in the database
+        if debugging:
+            print('creating table for mini-game words')
+        cur.execute(
+            '''CREATE TABLE IF NOT EXISTS words (word TEXT)''')
+
+        # insert our words table in the database
+        if debugging:
+            print('inserting mini-game words into database')
+        with open('./csv/wordlist.csv', 'r') as fin:
+            dr = csv.reader(fin)
+            for i in dr:
+                if debugging:
+                    print('inserting ' + str(i))
+                cur.execute('INSERT INTO words VALUES (?);', i)
+            if debugging:
+                cur.execute('SELECT * FROM words')
+                rows = cur.fetchall()
+                for row in rows:
+                    print('QUERY ALL: ' + str(row))
         # commit the changes
         conn.commit()
         # close the database connection to let other operations use it
