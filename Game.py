@@ -8,6 +8,7 @@ import Enemy
 import Hero
 import dbsetup
 from texttools import *
+import numpy
 
 
 # game class makes the game work instantiates all other classes at some point.
@@ -22,7 +23,7 @@ class Game:
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
-
+        print("debugging: " + self.debugging)
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
@@ -499,6 +500,7 @@ class Game:
             centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
             centerprint('[a]dventure [i]tem [h]ero')
             centerprint('[p]eddler [b]lacksmith')
+            centerprint('[m]ini-game')
             centerprint('[l]oad [s]ave [q]uit')
             m = input()
             if m == 'i':
@@ -535,10 +537,67 @@ class Game:
                 decision = input('Are you sure?')
                 if decision == 'y':
                     quit()
+            elif m == 'm':
+                centerprint('[c]aesar cipher or [w]ord scramble')
+                decision = input()
+                if(decision == 'w'):
+                    self.scramble()
             else:
                 centerprint('You walk back to camp')
 
-    # sell the hero items (will be able to buy soon)
+    #begin caesar cipher game
+    
+	#check if string is valid int
+    def validIntCheck(self, stringNum):
+        while(not(stringNum.isnumeric())):
+            stringNum = input("Please enter a positive integer: ")
+        return int(stringNum)
+	
+		
+	#begin word scramble game
+    def scramble(self):
+        print("Word Scrambler!")
+        centerprint("A large board appears before you and asks you to unscramble a set of words")
+        centerprint("But before you do, you must decide how much HP to bet")
+        centerprint("For each word you answer incorrectly, you will lose that amount health points")
+        centerprint("But for each you answer correctly, you will receive double")
+        HPWagered = self.validIntCheck(input())
+        centerprint("Excellent, let's begin")
+        centerprint("You will be given 3 words to unscramble. Here is the first")
+        self.conn.execute('SELECT * FROM words ORDER BY RANDOM() LIMIT 3' + ';')
+        rows = self.conn.fetchall()
+        totalHPEarned = 0
+        correct = 0
+        for row in rows:
+            currentWordUnscrambled = row[0].strip()
+            scrambled = self.scrambler(currentWordUnscrambled)
+            centerprint("Scrambled word: "  +  scrambled)
+            for i in range(3):
+                centerprint("Enter in the first guess: ")
+                guess = input()
+                if(guess.lower() == currentWordUnscrambled.lower()):
+                    centerprint("You are correct!")
+                    totalHPEarned += (2*HPWagered)
+                    correct += 1
+                    #centerprint("You have earned " + str(totalHPEarned - ((3 - correct - i )*HPWagered)) + " so far")
+                    break
+                else:
+                    centerprint("That was incorrect")
+                    centerprint("You have " + str(3-i-1) + " guesses left")
+                if(i == 2):
+                    centerprint("The correct answer was " + currentWordUnscrambled)
+                    centerprint("-------------------------------------------------------------\n\n\n\n")
+        centerprint("You earned a total of " + str(totalHPEarned - ((3 - correct)*HPWagered)) + " HP")
+        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)	
+    def scrambler(self,word): 
+        word = word.strip()
+        wordArray = list(word)
+        numpy.random.shuffle(wordArray)
+        word = ' '.join(wordArray)
+        word.strip()
+        return word
+		
+	# sell the hero items (will be able to buy soon)
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
         centerprint('He shows his wares:')
