@@ -542,10 +542,61 @@ class Game:
                 decision = input()
                 if(decision == 'w'):
                     self.scramble()
+                elif(decision == 'c'):
+                    self.caesar()
             else:
                 centerprint('You walk back to camp')
 
     #begin caesar cipher game
+    def caesar(self):
+        centerprint("A large board appears before you and asks you to decipher a set of words")
+        centerprint("But before you do, you must decide how much HP to bet")
+        centerprint("For each word you answer incorrectly, you will lose that amount health points")
+        centerprint("But for each you answer correctly, you will receive double")
+        HPWagered = self.validIntCheck(input())
+        centerprint("Excellent, let's begin")
+        centerprint("You will be given 3 words to decipher. Here is the first")
+        self.conn.execute('SELECT * FROM words ORDER BY RANDOM() LIMIT 3' + ';')
+        rows = self.conn.fetchall()
+        totalHPEarned = 0
+        correct = 0
+        for row in rows:
+            currentWordUnscrambled = row[0]
+            scrambled, answer = self.cipher(currentWordUnscrambled)
+            centerprint("Ciphered word: "  +  scrambled)
+            
+            for i in range(3):
+                centerprint("Enter in an integer: ")
+                guess = self.validIntCheck(input())
+                if(guess == answer):
+                    centerprint("You are correct!")
+                    totalHPEarned += (2*HPWagered)
+                    correct += 1
+                    #centerprint("You have earned " + str(totalHPEarned - ((3 - correct - i )*HPWagered)) + " so far")
+                    break
+                else:
+                    centerprint("That was incorrect")
+                    centerprint("You have " + str(3-i-1) + " guesses left")
+                if(i == 2):
+                    centerprint("The correct answer was " + str(answer))
+                    centerprint("The word was " + currentWordUnscrambled)
+                    centerprint("-------------------------------------------------------------\n\n\n\n")
+        centerprint("You earned a total of " + str(totalHPEarned - ((3 - correct)*HPWagered)) + " HP")
+        centerprint("Ave atque vale!")
+        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)	
+		
+    def cipher(self, word):
+        randomNum = random.randint(1,25)
+        randomNum = random.randint(1,25)
+        randomNum = random.randint(1,25)
+        word = word.strip()
+        newWord=""
+        for i in word:
+            numToAdd = ord(i) + randomNum
+            if(numToAdd > 122):
+                numToAdd -= 26
+            newWord = newWord + chr(numToAdd)
+        return newWord,randomNum
     
 	#check if string is valid int
     def validIntCheck(self, stringNum):
