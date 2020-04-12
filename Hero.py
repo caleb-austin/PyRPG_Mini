@@ -223,6 +223,19 @@ class Hero:
             self.levelupaug = .9
             # high crit chance boost
             self.critaug = 35
+        elif self.ourclass == 'monk':  # defined by high dodge and leveling and med other stats
+            # med health
+            self.hpaug = 8
+            # high dodge
+            self.dodgeaug = 15
+            # med DEF
+            self.defaug = 6
+            # med atk
+            self.atkaug = 3
+            # slow leveling
+            self.levelupaug = .6
+            # high crit chance boost
+            self.critaug = 4
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug
