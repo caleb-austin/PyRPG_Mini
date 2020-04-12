@@ -236,6 +236,19 @@ class Hero:
             self.levelupaug = .6
             # high crit chance boost
             self.critaug = 4
+        elif self.ourclass == 'assassin':  # defined by no damage aside from massive crits
+            # low health
+            self.hpaug = 6
+            # high dodge
+            self.dodgeaug = 14
+            # med DEF
+            self.defaug = 6
+            # med atk
+            self.atkaug = 0
+            # high leveling
+            self.levelupaug = .6
+            # 50% crit chance boost
+            self.critaug = 50
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug
