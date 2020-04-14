@@ -23,6 +23,16 @@ class Game:
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
 
+        # option to print out useful information
+        centerprint('View information printout? [1] for yes, [ENTER] for no')
+        infoPrint = input()
+        if infoPrint == '1':
+            print('\n')
+            with open('./info.txt', 'r') as f:
+                information = f.read()
+                print(information)
+                print('\n')
+
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
@@ -513,6 +523,7 @@ class Game:
             centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
             centerprint('[a]dventure [i]tem [h]ero')
             centerprint('[p]eddler [b]lacksmith')
+            centerprint('[v]iew information printout?')
             centerprint('[l]oad [s]ave [q]uit')
             m = input()
             if m == 'i':
@@ -549,6 +560,13 @@ class Game:
                 decision = input('Are you sure?')
                 if decision == 'y':
                     quit()
+            elif m == 'v':
+                # option to print out useful information
+                print('\n')
+                with open('./info.txt', 'r') as f:
+                    information = f.read()
+                    print(information)
+                    print('\n')
             else:
                 centerprint('You walk back to camp')
 
