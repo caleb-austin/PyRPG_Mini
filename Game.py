@@ -22,12 +22,14 @@ class Game:
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
+        if self.debugging != '1':
+            self.debugging = False
 
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
         if self.riddlemode == '':
-            self.riddlemode = 0
+            self.riddlemode = 1
 
         # provides a way to speed through battle (risky!)
         self.autoattack = 0
@@ -84,6 +86,9 @@ class Game:
             ourclass = 'hunter'
         else:
             centerprint('Please enter a valid selection')
+            ourclass = 'warrior'
+            centerprint('Class set to warrior')
+
         marqueeprint('[CHOOSE DIFFICULTY]')
         centerprint('[1]easy [2]med [3]hard')
         diff = input()
@@ -128,16 +133,17 @@ class Game:
             marqueeprint('')
             centerprint('[n]ew game [l]oad')
             decision = input()
-            if decision == 'n' or decision == '':
+            if decision == 'l':
+                print('lOADING GAME')
+                self.ourhero = self.loadgame()
+                self.ourenemy = self.getenemy()
+            else:  # any other option will start a new game
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
                 self.ourenemy = self.getenemy()
                 self.ourhero.heroperks()
                 gridoutput(self.ourhero.datadict())
-            if decision == 'l':
-                print('lOADING GAME')
-                self.ourhero = self.loadgame()
-                self.ourenemy = self.getenemy()
+
             while self.ourhero.isalive():
                 self.adventure()
 
@@ -145,8 +151,11 @@ class Game:
     def adventure(self):
         centerprint('[a]dventure or [c]amp')
         m = input()
+        if m != 'a' and m != 'c':  # make sure everything gets standardized
+            m = 'a'  # default to adventure
+
         ourrand = random.randint(0, 100)
-        if m == 'a' or m == '':
+        if m == 'a':
             if ourrand <= 70:
                 self.ourhero.isbattling = True
                 # Make new enemy
@@ -532,7 +541,7 @@ class Game:
                 self.peddler()
             elif m == 'q':
                 marqueeprint('[QUIT]')
-                decision = input('Are you sure?')
+                decision = input('Are you sure? [y]es, [ENTER] for no \t')
                 if decision == 'y':
                     quit()
             else:
