@@ -140,7 +140,6 @@ class Game:
             else:  # any other option will start a new game
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
-                self.ourhero.addgold(1000)  # test peddler
                 self.ourenemy = self.getenemy()
                 self.ourhero.heroperks()
                 gridoutput(self.ourhero.datadict())
