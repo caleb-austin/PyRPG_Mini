@@ -35,6 +35,7 @@ class Game:
         # make blank hero and enemy objects
         self.ourhero = 0
         self.ourenemy = 0
+        self.playing_assassin = False  # boolean if player is an assassin for their special combat
 
         # global text width
         self.textwidth = 70
@@ -74,7 +75,7 @@ class Game:
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
         marqueeprint('[CHOOSE CLASS]')
-        centerprint('[w]arrior [m]age [h]unter')
+        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin')
         ourclass = input()
         if ourclass == 'w' or ourclass == '':
             ourclass = 'warrior'
@@ -82,6 +83,13 @@ class Game:
             ourclass = 'mage'
         elif ourclass == 'h':
             ourclass = 'hunter'
+        elif ourclass == 'a':
+            ourclass = 'archer'
+        elif ourclass == 'mo':
+            ourclass = 'monk'
+        elif ourclass == 'as':
+            ourclass = 'assassin'
+            self.playing_assassin = True  # specify playing assassin for special attack rules
         else:
             centerprint('Please enter a valid selection')
         marqueeprint('[CHOOSE DIFFICULTY]')
@@ -261,16 +269,22 @@ class Game:
             self.ourhero.dodge = self.ourhero.basedodge
         self.ourhero.applyequip()
         marqueeprint('[HERO TURN]')
-        crit = 0
-        critrand = random.randrange(0, 100)
-        if critrand in range(self.ourhero.crit, critrand):
-            crit = self.ourhero.atk * .4
-        effatk = int(self.ourhero.atk + crit)
-        if effatk < 0:
-            effatk = 0
+
         if m == 'a' or m == '':
-            if critrand == 0:
+            crit = 0.0
+            critrand = random.randrange(0, 100)
+            if critrand <= self.ourhero.crit:  # fix random crits
+                crit = self.ourhero.atk * .4
+                if self.playing_assassin:  # if you get a crit as an assassin
+                    crit = self.ourhero.atk  # full extra damage increase
                 centerprint('CRITICAL HIT!')
+            effatk = int(self.ourhero.atk + crit)
+            if effatk < 0:
+                effatk = 0
+
+            if self.playing_assassin:  # modify the standard attack to 0 if playing assassin
+                effatk = crit  # set the only damage to the crit
+
             self.ourenemy.damage(effatk + crit, self.ourhero.atkcurve)
             self.ourhero.ourweapon.damagedur(effatk + crit, self.ourhero.defcurve)
             if self.ourenemy.hp < 0:

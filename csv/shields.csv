@@ -2,45 +2,90 @@ level,class,name,type,basedef,durability
 1,warrior,weak,shield,3,30
 1,mage,weak,ward,1,32
 1,hunter,weak,buckler,2,35
+1,archer,weak,shield,2,34
+1,monk,weak,evasion,3,35
+1,assassin,weak,small shield,2,32
 2,warrior,Novice,shield,6,38
 2,mage,Novice,ward,4,41
 2,hunter,Novice,buckler,5,43
+2,archer,Novice,shield,5,42
+2,monk,Novice,evasion,6,44
+2,assassin,Novice,small shield,5,41
 3,warrior,Old,shield,8,46
 3,mage,Old,ward,7,49
 3,hunter,Old,buckler,7,51
+3,archer,Old,shield,7,50
+3,monk,Old,evasion,8,52
+3,assassin,Old,small shield,7,49
 4,warrior,Leather,shield,11,54
 4,mage,Leather,ward,9,57
 4,hunter,Leather,buckler,10,59
+4,archer,Leather,shield,11,58
+4,monk,Leather,evasion,11,59
+4,assassin,Leather,small shield,10,57
 5,warrior,melancholy,shield,14,62
 5,mage,melancholy,ward,11,65
 5,hunter,melancholy,buckler,12,68
+5,archer,melancholy,shield,12,67
+5,monk,melancholy,evasion,13,67
+5,assassin,melancholy,small shield,12,65
 6,warrior,banded,shield,17,70
 6,mage,banded,ward,13,73
 6,hunter,banded,buckler,15,76
+6,archer,banded,shield,16,75
+6,monk,banded,evasion,16,73
+6,assassin,banded,small shield,15,73
 7,warrior,large,shield,19,78
 7,mage,large,ward,16,81
 7,hunter,large,buckler,17,84
+7,archer,large,shield,17,84
+7,monk,large,evasion,18,81
+7,assassin,large,small shield,17,81
 8,warrior,Gilded,shield,22,86
 8,mage,Gilded,ward,18,89
 8,hunter,Gilded,buckler,19,92
+8,archer,Gilded,shield,20,92
+8,monk,Gilded,evasion,21,89
+8,assassin,Gilded,small shield,19,89
 9,warrior,enchanted,shield,25,95
 9,mage,enchanted,ward,20,97
 9,hunter,enchanted,buckler,22,100
+9,archer,enchanted,shield,21,100
+9,monk,enchanted,evasion,23,97
+9,assassin,enchanted,small shield,22,97
 10,warrior,reinforced,shield,28,103
 10,mage,reinforced,ward,22,105
 10,hunter,reinforced,buckler,24,108
+10,archer,reinforced,shield,24,105
+10,monk,reinforced,evasion,26,104
+10,assassin,reinforced,small shield,24,105
 11,warrior,moaning,shield,30,111
 11,mage,moaning,ward,25,113
 11,hunter,moaning,buckler,27,116
+11,archer,moaning,shield,28,115
+11,monk,moaning,evasion,29,114
+11,assassin,moaning,small shield,27,113
 12,warrior,blessed,shield,33,119
 12,mage,blessed,ward,27,122
 12,hunter,blessed,buckler,29,124
+12,archer,blessed,shield,29,122
+12,monk,blessed,evasion,31,123
+12,assassin,blessed,small shield,29,122
 13,warrior,talking,shield,36,127
 13,mage,talking,ward,29,130
 13,hunter,talking,buckler,32,132
+13,archer,talking,shield,34,131
+13,monk,talking,evasion,35,128
+13,assassin,talking,small shield,32,130
 14,warrior,glowing,shield,39,135
 14,mage,glowing,ward,31,138
 14,hunter,glowing,buckler,34,140
+14,archer,glowing,shield,35,138
+14,monk,glowing,evasion,38,135
+14,assassin,glowing,small shield,34,138
 15,warrior,epic,shield,41,143
 15,mage,epic,ward,34,146
 15,hunter,epic,buckler,36,149
+15,archer,epic,shield,38,150
+15,monk,epic,evasion,40,148
+15,assassin,epic,small shield,36,146
