@@ -392,7 +392,7 @@ class Game:
     def blacksmith(self):
         centerprint('An old Blacksmith rests at your camp')
         centerprint('He shows his wares and services:')
-        centerprint('[f]ix gear [b]uy gear')
+        centerprint('[f]ix gear [b]uy gear [r]eturn to camp')
         nextdecision = input()
         centerprint('Gold: ' + str(self.ourhero.gold))
         if nextdecision == 'f':
@@ -408,7 +408,7 @@ class Game:
             gridoutput(self.ourhero.ourarmor.datadict())
 
             # user input for what to repair, or all of it, for convenience
-            decision = input('What do you want to repair? [a] for all')
+            decision = input('What do you want to repair? [a] for all \t')
             if decision == '1' or decision == 'a':
                 repaircost = self.ourhero.ourweapon.maxdur - self.ourhero.ourweapon.dur
                 centerprint('Repair Your weapon?')
@@ -431,7 +431,7 @@ class Game:
                     centerprint('Repair Success.')
             if decision == '3' or decision == 'a':
                 repaircost = self.ourhero.ourarmor.maxdur - self.ourhero.ourarmor.dur
-                centerprint('Repair Your armor?)')
+                centerprint('Repair Your armor?')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
                 centerprint('[y]es [n]o')
                 decision2 = input()
@@ -497,7 +497,10 @@ class Game:
                 self.ourhero.gold -= shcost
                 centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
             self.ourhero.applyequip()
-            return
+
+        if nextdecision != 'r':  # for anything other than returning to camp, go back to blacksmith
+            marqueeprint('[BLACKSMITH]')
+            self.blacksmith()
 
     # a camp where you regain hp after so many fights.
     def camp(self):
