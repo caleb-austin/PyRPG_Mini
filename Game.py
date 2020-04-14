@@ -140,6 +140,7 @@ class Game:
             else:  # any other option will start a new game
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
+                self.ourhero.addgold(1000)  # test peddler
                 self.ourenemy = self.getenemy()
                 self.ourhero.heroperks()
                 gridoutput(self.ourhero.datadict())
@@ -554,7 +555,7 @@ class Game:
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
         centerprint('He shows his wares:')
-        centerprint('[b]uy, [r]iddle (100g)')
+        centerprint('[b]uy, [r]iddle (100g)\nreturn to [c]amp')
         nextdecision = input()
         if nextdecision == 'b':
             pass
@@ -578,16 +579,20 @@ class Game:
                 self.ourhero.buyitem(item4)
             elif selection == '5':
                 self.ourhero.buyitem(item5)
-            elif selection == '':
-                centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
-                return
             else:
+                centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
                 centerprint('Get out of here you bum!')
-                # offer random choice of items at 1.5x value price
+                return
         if nextdecision == 'r':
             if self.ourhero.canafford(100):
                 self.ourhero.gold -= 100
                 self.riddle()
+            else:
+                centerprint('You do not have enough money for that!')
+
+        if nextdecision != 'c':  # for anything other than returning to camp, go back to peddler
+            marqueeprint('[PEDDLER\'S WARES]')
+            self.peddler()
 
     # pickle in to hero obj and start gameloop
     def loadgame(self):
