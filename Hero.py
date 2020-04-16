@@ -249,6 +249,19 @@ class Hero:
             self.levelupaug = .6
             # 50% crit chance boost
             self.critaug = 50
+        elif self.ourclass == 'barbarian':  # defined by high base damage and low defense
+            # decent health
+            self.hpaug = 11
+            # low dodge
+            self.dodgeaug = 4
+            # low DEF
+            self.defaug = 6
+            # high atk
+            self.atkaug = 8
+            # med leveling
+            self.levelupaug = .7
+            # high crit chance boost
+            self.critaug = 4
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug
