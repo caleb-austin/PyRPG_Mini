@@ -9,7 +9,7 @@ import Hero
 import dbsetup
 from texttools import *
 import numpy
-
+import csv
 
 # game class makes the game work instantiates all other classes at some point.
 class Game:
@@ -155,7 +155,6 @@ class Game:
             while(decision != 'n' and decision != 'l'):
                 centerprint("Please choose either [n]ew game or [l]oad")
                 decision = input()
-            if decision == 'n' or decision == '':
             if decision == 'l':
                 print('lOADING GAME')
                 self.ourhero = self.loadgame()
@@ -613,7 +612,7 @@ class Game:
             currentWordUnscrambled = row[0]
             scrambled, answer = self.cipher(currentWordUnscrambled)
             centerprint("Ciphered word: "  +  scrambled)
-            
+            centerprint("answer: " + str(answer))
             for i in range(3):
                 centerprint("Enter in an integer: ")
                 guess = self.validIntCheck(input())
@@ -631,9 +630,22 @@ class Game:
                     centerprint("The word was " + currentWordUnscrambled)
                     centerprint("-------------------------------------------------------------\n\n\n\n")
         centerprint("You earned a total of " + str(totalHPEarned - ((3 - correct)*HPWagered)) + " HP")
+        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)
+        self.conn.execute('SELECT score FROM highScores WHERE game LIKE "%caesar"' + ';') #use like because I can't get rid of the ptr character
+        highScore = self.conn.fetchall()
+        centerprint("Current high score: " + str(highScore[0][0]))
+        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): # if current winnings exceeds the high score for the caesar cipher game
+            centerprint("You set a high score in earnings for the Caesar cipher game!")
+            sql = 'UPDATE highScores SET game = "caesar", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%caesar"' + ';'          
+            self.conn.execute(sql) #update the database with the new high score
+            r = csv.reader(open('./csv/highScores.csv')) # update with the csv with the new high score
+            lines = list(r)
+            lines[0][1] = self.ourhero.name
+            lines[0][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
+            writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
+            writer.writerows(lines)
+        
         centerprint("Ave atque vale!")
-        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)	
-		
     def cipher(self, word):
         randomNum = random.randint(1,25)
         randomNum = random.randint(1,25)
@@ -672,6 +684,7 @@ class Game:
             currentWordUnscrambled = row[0].strip()
             scrambled = self.scrambler(currentWordUnscrambled)
             centerprint("Scrambled word: "  +  scrambled)
+            centerprint("Answer: " + currentWordUnscrambled)
             for i in range(3):
                 centerprint("Enter in the first guess: ")
                 guess = input()
@@ -688,7 +701,20 @@ class Game:
                     centerprint("The correct answer was " + currentWordUnscrambled)
                     centerprint("-------------------------------------------------------------\n\n\n\n")
         centerprint("You earned a total of " + str(totalHPEarned - ((3 - correct)*HPWagered)) + " HP")
-        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)	
+        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)
+        self.conn.execute('SELECT score FROM highScores WHERE game LIKE "%scramble"' + ';') #use like because I can't get rid of the ptr character
+        highScore = self.conn.fetchall()
+        centerprint("Current high score: " + str(highScore[0][0]))
+        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): #if their current winnings exceeds the high score in that game 
+            centerprint("You set a high score in earnings for the Word Scramble game!")
+            sql = 'UPDATE highScores SET game = "scramble", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%scramble"' + ';'            
+            self.conn.execute(sql)#update the database 
+            r = csv.reader(open('./csv/highScores.csv', 'r')) #update the csv file
+            lines = list(r)
+            lines[1][1] = self.ourhero.name
+            lines[1][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
+            writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
+            writer.writerows(lines)		
     def scrambler(self,word): 
         word = word.strip()
         wordArray = list(word)
