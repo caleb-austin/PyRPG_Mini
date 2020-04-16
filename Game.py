@@ -20,28 +20,30 @@ class Game():
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
-        self.debugging = 0
-        centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
+        self.debugging = 1
+        centerprint('Would you like to play in Debug Mode? [Y] for yes, [N] for no')
         self.debugging = input()
 
-        if self.debugging != '1':
-            self.debugging = False
+        if self.debugging.upper() == 'N':
+            self.debugging = 0
 
         # option to print out useful information
-        centerprint('View information printout? [1] for yes, [ENTER] for no')
+        centerprint('View information printout? [Y] for yes, [N] for no')
         infoPrint = input()
-        if infoPrint == '1':
+        if infoPrint.upper() == 'Y':
             print('\n')
             with open('./info.txt', 'r') as f:
                 information = f.read()
                 print(information)
                 print('\n')
-                
+
         # riddle mode 0 - optional, 1 - mandatory
-        centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
+        # preset riddle mode to mandatory
+        self.riddlemode = 1
+        centerprint('Would you like to play with riddles? [Y] for yes, [N] for no')
         self.riddlemode = input()
-        if self.riddlemode == '':
-            self.riddlemode = 1
+        if self.riddlemode.upper() == 'N':
+            self.riddlemode = 0
 
         # provides a way to speed through battle (risky!)
         self.autoattack = 0
