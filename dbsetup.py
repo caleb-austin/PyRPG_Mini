@@ -197,6 +197,26 @@ class dbsetup():
                 rows = cur.fetchall()
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
+		# create our words table in the database
+        if debugging:
+            print('creating table for mini-game words')
+        cur.execute(
+            '''CREATE TABLE IF NOT EXISTS highScores (game TEXT, name TEXT, score INT)''')
+
+        # insert our high scores table in the database
+        if debugging:
+            print('inserting mini-games high scores into database')
+        with open('./csv/highScores.csv', encoding='utf-8-sig') as fin:
+            dr = csv.reader(fin)
+            for i in dr:
+                if debugging:
+                    print('inserting ' + str(i))
+                cur.execute('INSERT INTO highScores VALUES (?,?,?);', i)
+            if debugging:
+                cur.execute('SELECT * FROM highScores')
+                rows = cur.fetchall()
+                for row in rows:
+                    print('QUERY ALL: ' + str(row))
         # commit the changes
         conn.commit()
         # close the database connection to let other operations use it
