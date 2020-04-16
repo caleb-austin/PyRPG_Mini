@@ -37,6 +37,8 @@ Req. 2.2.1 (Nour): Each word that is ciphered will come from a large dictionary 
 Req. 2.2.2 (Nour): The modified app shall provide the user with a hint to the answer upon their request, but this will decrease the amount of XP awarded.
 
 Req. 2.3 (Nour): Each of these games will be incorporated into the campsite of the main game.
+
+Req. 2.4 (Nour): The modified app shall record high scores in these mini-games in the database.
  
 ### [User Story C](features.md "Ref. Features and User Stories")
 
