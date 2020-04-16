@@ -1,0 +1,42 @@
+Classes:
+    The different playable character classes come with unique stats to help (or hinder) a player.
+
+    Warrior: As a tank, the warrior has exceptional HP, defense, and armor / shields. He is hampered his slow speed and slow leveling.
+
+    Mage: The mage is a glass cannon with excellent damage but low health. Aim to take your enemies out first turn, or be ready to take massive damage!
+
+    Hunter: The jack of all trades, hunter has the most average stats all around, plus a high dodge ability.
+
+    Archer: Deadly from a distance, the archer has low damage but makes up for it with a high crit chance on his well aimed arrows. He is average in his other stats.
+
+    Monk: The meditative monk features the highest dodge ability, as well as a leveling rate which rivals the mage. Average in his other abilities.
+
+    Assassin: The assassin's low health is at stake in every battle. The only damage he can output is from criticals, with a 50% chance to hit on any attack. Want to roll the dice of fate?
+
+   Barbarian: With enough attack force to humble a wild boar, the barbarian uses his mighty strength to pumble his opponents, however his primitive nature hinders technological prowess.
+   
+Main Gameplay:
+    While playing, you will have two main choices, Adventuring or Camping.
+
+    Adventure:
+        A random selection of a battle, item, riddle, traveler.
+
+        Battle: battle will give you several battle commands: attack, defend, run, use item, coinflip to heal for 100g.
+            Upon finishing a battle, you are rewarded with gold and exp.
+
+        Item: You luck upon an item, be it a piece of armor, shield, weapon, or usable item for battle.
+
+        Riddle: Answering a riddle correctly will provide you with gold and XP!
+
+        Traveler: A lone traveler may appear, providing a tidbit of wisdom and gifting you some XP, gold, or nothing.
+
+
+    Camp: camping will regenerate your health, and offer features like:
+        adventure
+        manage your item
+        look at your hero stats
+        buy items or answer a riddle from a peddler
+        fix or buy gear from the blacksmith
+        load an existing game
+        save the game
+        quit the game

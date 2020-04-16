@@ -40,7 +40,7 @@ class Hero:
         self.luck = self.baseluck
 
         # Crit
-        self.basecrit = 5
+        self.basecrit = 0
         self.crit = self.basecrit
 
         # game-created vars
@@ -191,7 +191,7 @@ class Hero:
             self.dodgeaug = 5
             # low DEF
             self.defaug = 6
-            # lower atk
+            # high atk
             self.atkaug = 12
             # smarter, levels up quicker
             self.levelupaug = .6
@@ -210,6 +210,58 @@ class Hero:
             self.levelupaug = .8
             # high crit chance boost
             self.critaug = 6
+        elif self.ourclass == 'archer':  # defined by high crit chance, low base damage, medium other stats
+            # low health
+            self.hpaug = 8
+            # high dodge
+            self.dodgeaug = 8
+            # med DEF
+            self.defaug = 6
+            # low ATK, brought up by crit
+            self.atkaug = 3
+            # slow leveling
+            self.levelupaug = .9
+            # high crit chance boost
+            self.critaug = 35
+        elif self.ourclass == 'monk':  # defined by high dodge and leveling and med other stats
+            # med health
+            self.hpaug = 8
+            # high dodge
+            self.dodgeaug = 15
+            # med DEF
+            self.defaug = 6
+            # med atk
+            self.atkaug = 3
+            # slow leveling
+            self.levelupaug = .6
+            # high crit chance boost
+            self.critaug = 4
+        elif self.ourclass == 'assassin':  # defined by no damage aside from massive crits
+            # low health
+            self.hpaug = 6
+            # high dodge
+            self.dodgeaug = 14
+            # med DEF
+            self.defaug = 6
+            # med atk
+            self.atkaug = 0
+            # high leveling
+            self.levelupaug = .6
+            # 50% crit chance boost
+            self.critaug = 50
+        elif self.ourclass == 'barbarian':  # defined by high base damage and low defense
+            # decent health
+            self.hpaug = 11
+            # low dodge
+            self.dodgeaug = 4
+            # low DEF
+            self.defaug = 6
+            # high atk
+            self.atkaug = 8
+            # med leveling
+            self.levelupaug = .7
+            # high crit chance boost
+            self.critaug = 4
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug
@@ -218,6 +270,7 @@ class Hero:
         self.nextlevel = int(self.nextlevel * self.levelupaug)
         self.baseatk += self.atkaug
         self.atk += self.atkaug
+        self.crit += self.critaug  # have to actually add to crit chance
 
     # prints all hero stat info
     def printheroinfodetail(self):
@@ -231,7 +284,7 @@ class Hero:
         centerprint(Game.lr_justify('Atk:', str(self.atk), self.datawidth))
         centerprint(Game.lr_justify('Defense:', str(self.defn), self.datawidth))
         centerprint(Game.lr_justify('Dodge:', str(self.dodge), self.datawidth))
-        centerprint(Game.lr_justify('battles fought', str(self.battlecount), self.datawidth))
+        centerprint(Game.lr_justify('Battles Fought', str(self.battlecount), self.datawidth))
         print('')
 
     # returns a dictionary of relevant user data for printing and delivering class information in a package
