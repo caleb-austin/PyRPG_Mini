@@ -129,6 +129,9 @@ class Game:
             marqueeprint('')
             centerprint('[n]ew game [l]oad')
             decision = input()
+            while(decision != 'n' and decision != 'l'):
+                centerprint("Please choose either [n]ew game or [l]oad")
+                decision = input()
             if decision == 'n' or decision == '':
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
@@ -695,7 +698,10 @@ class Game:
             print(str(i) + ' - ' + str(item))
             print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
             print('\n')
-        index = input("Which Character?\nOr [c]ancel")
+        index = self.validIntCheck(input("Which Character?\nOr [c]ancel"))
+        while(index >= len(dirlist)):
+            centerprint("Please choose one of the available save files")
+            index = self.validIntCheck(input())
         if index == '':
             index = 0
         if index == 'c':
