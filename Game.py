@@ -23,12 +23,23 @@ class Game:
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
-        print("debugging: " + self.debugging)
+        if self.debugging != '1':
+            self.debugging = False
+
+        # option to print out useful information
+        centerprint('View information printout? [1] for yes, [ENTER] for no')
+        infoPrint = input()
+        if infoPrint == '1':
+            print('\n')
+            with open('./info.txt', 'r') as f:
+                information = f.read()
+                print(information)
+                print('\n')
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
         if self.riddlemode == '':
-            self.riddlemode = 0
+            self.riddlemode = 1
 
         # provides a way to speed through battle (risky!)
         self.autoattack = 0
@@ -36,6 +47,7 @@ class Game:
         # make blank hero and enemy objects
         self.ourhero = 0
         self.ourenemy = 0
+        self.playing_assassin = False  # boolean if player is an assassin for their special combat
 
         # global text width
         self.textwidth = 70
@@ -75,7 +87,7 @@ class Game:
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
         marqueeprint('[CHOOSE CLASS]')
-        centerprint('[w]arrior [m]age [h]unter')
+        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin')
         ourclass = input()
         if ourclass == 'w' or ourclass == '':
             ourclass = 'warrior'
@@ -83,8 +95,18 @@ class Game:
             ourclass = 'mage'
         elif ourclass == 'h':
             ourclass = 'hunter'
+        elif ourclass == 'a':
+            ourclass = 'archer'
+        elif ourclass == 'mo':
+            ourclass = 'monk'
+        elif ourclass == 'as':
+            ourclass = 'assassin'
+            self.playing_assassin = True  # specify playing assassin for special attack rules
         else:
             centerprint('Please enter a valid selection')
+            ourclass = 'warrior'
+            centerprint('Class set to warrior')
+
         marqueeprint('[CHOOSE DIFFICULTY]')
         centerprint('[1]easy [2]med [3]hard')
         diff = input()
@@ -129,19 +151,23 @@ class Game:
             marqueeprint('')
             centerprint('[n]ew game [l]oad')
             decision = input()
+
             while(decision != 'n' and decision != 'l'):
                 centerprint("Please choose either [n]ew game or [l]oad")
                 decision = input()
             if decision == 'n' or decision == '':
+            if decision == 'l':
+                print('lOADING GAME')
+                self.ourhero = self.loadgame()
+                self.ourenemy = self.getenemy()
+            else:  # any other option will start a new game
+
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
                 self.ourenemy = self.getenemy()
                 self.ourhero.heroperks()
                 gridoutput(self.ourhero.datadict())
-            if decision == 'l':
-                print('lOADING GAME')
-                self.ourhero = self.loadgame()
-                self.ourenemy = self.getenemy()
+
             while self.ourhero.isalive():
                 self.adventure()
 
@@ -149,8 +175,11 @@ class Game:
     def adventure(self):
         centerprint('[a]dventure or [c]amp')
         m = input()
+        if m != 'a' and m != 'c':  # make sure everything gets standardized
+            m = 'a'  # default to adventure
+
         ourrand = random.randint(0, 100)
-        if m == 'a' or m == '':
+        if m == 'a':
             if ourrand <= 70:
                 self.ourhero.isbattling = True
                 # Make new enemy
@@ -265,16 +294,22 @@ class Game:
             self.ourhero.dodge = self.ourhero.basedodge
         self.ourhero.applyequip()
         marqueeprint('[HERO TURN]')
-        crit = 0
-        critrand = random.randrange(0, 100)
-        if critrand in range(self.ourhero.crit, critrand):
-            crit = self.ourhero.atk * .4
-        effatk = int(self.ourhero.atk + crit)
-        if effatk < 0:
-            effatk = 0
+
         if m == 'a' or m == '':
-            if critrand == 0:
+            crit = 0.0
+            critrand = random.randrange(0, 100)
+            if critrand <= self.ourhero.crit:  # fix random crits
+                crit = self.ourhero.atk * .4
+                if self.playing_assassin:  # if you get a crit as an assassin
+                    crit = self.ourhero.atk  # full extra damage increase
                 centerprint('CRITICAL HIT!')
+            effatk = int(self.ourhero.atk + crit)
+            if effatk < 0:
+                effatk = 0
+
+            if self.playing_assassin:  # modify the standard attack to 0 if playing assassin
+                effatk = crit  # set the only damage to the crit
+
             self.ourenemy.damage(effatk + crit, self.ourhero.atkcurve)
             self.ourhero.ourweapon.damagedur(effatk + crit, self.ourhero.defcurve)
             if self.ourenemy.hp < 0:
@@ -387,7 +422,7 @@ class Game:
     def blacksmith(self):
         centerprint('An old Blacksmith rests at your camp')
         centerprint('He shows his wares and services:')
-        centerprint('[f]ix gear [b]uy gear')
+        centerprint('[f]ix gear [b]uy gear [r]eturn to camp')
         nextdecision = input()
         centerprint('Gold: ' + str(self.ourhero.gold))
         if nextdecision == 'f':
@@ -403,7 +438,7 @@ class Game:
             gridoutput(self.ourhero.ourarmor.datadict())
 
             # user input for what to repair, or all of it, for convenience
-            decision = input('What do you want to repair? [a] for all')
+            decision = input('What do you want to repair? [a] for all \t')
             if decision == '1' or decision == 'a':
                 repaircost = self.ourhero.ourweapon.maxdur - self.ourhero.ourweapon.dur
                 centerprint('Repair Your weapon?')
@@ -426,7 +461,7 @@ class Game:
                     centerprint('Repair Success.')
             if decision == '3' or decision == 'a':
                 repaircost = self.ourhero.ourarmor.maxdur - self.ourhero.ourarmor.dur
-                centerprint('Repair Your armor?)')
+                centerprint('Repair Your armor?')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
                 centerprint('[y]es [n]o')
                 decision2 = input()
@@ -492,7 +527,10 @@ class Game:
                 self.ourhero.gold -= shcost
                 centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
             self.ourhero.applyequip()
-            return
+
+        if nextdecision != 'r':  # for anything other than returning to camp, go back to blacksmith
+            marqueeprint('[BLACKSMITH]')
+            self.blacksmith()
 
     # a camp where you regain hp after so many fights.
     def camp(self):
@@ -504,6 +542,7 @@ class Game:
             centerprint('[a]dventure [i]tem [h]ero')
             centerprint('[p]eddler [b]lacksmith')
             centerprint('[m]ini-game')
+            centerprint('[v]iew information printout?')
             centerprint('[l]oad [s]ave [q]uit')
             m = input()
             if m == 'i':
@@ -537,7 +576,7 @@ class Game:
                 self.peddler()
             elif m == 'q':
                 marqueeprint('[QUIT]')
-                decision = input('Are you sure?')
+                decision = input('Are you sure? [y]es, [ENTER] for no \t')
                 if decision == 'y':
                     quit()
             elif m == 'm':
@@ -547,6 +586,13 @@ class Game:
                     self.scramble()
                 elif(decision == 'c'):
                     self.caesar()
+            elif m == 'v':
+                # option to print out useful information
+                print('\n')
+                with open('./info.txt', 'r') as f:
+                    information = f.read()
+                    print(information)
+                    print('\n')
             else:
                 centerprint('You walk back to camp')
 
@@ -655,7 +701,7 @@ class Game:
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
         centerprint('He shows his wares:')
-        centerprint('[b]uy, [r]iddle (100g)')
+        centerprint('[b]uy, [r]iddle (100g)\nreturn to [c]amp')
         nextdecision = input()
         if nextdecision == 'b':
             pass
@@ -679,16 +725,20 @@ class Game:
                 self.ourhero.buyitem(item4)
             elif selection == '5':
                 self.ourhero.buyitem(item5)
-            elif selection == '':
-                centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
-                return
             else:
+                centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
                 centerprint('Get out of here you bum!')
-                # offer random choice of items at 1.5x value price
+                return
         if nextdecision == 'r':
             if self.ourhero.canafford(100):
                 self.ourhero.gold -= 100
                 self.riddle()
+            else:
+                centerprint('You do not have enough money for that!')
+
+        if nextdecision != 'c':  # for anything other than returning to camp, go back to peddler
+            marqueeprint('[PEDDLER\'S WARES]')
+            self.peddler()
 
     # pickle in to hero obj and start gameloop
     def loadgame(self):
