@@ -16,7 +16,7 @@ class Game:
     def __init__(self):
         # adds a little suspense
         # TODO: add suspense option to some printing methods?
-        self.suspensemode = 0
+        self.suspensemode = 0 #temp comment
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
