@@ -90,6 +90,16 @@ Req. 3.5.3 (Andrew): The Assassin class shall introduce a new set of Weapons of 
 
 Req. 3.5.4 (Anthony): The Assassin class shall introduce a new set of Hero Perks found in Hero.py
 
+Req. 3.6 (Caleb): The playable character class Knight shall be added, bringing its own set of items
+
+Req. 3.6.1 (Caleb): The Knight class shall introduce a new set of Armor of varying levels, names, types, and stats, all stored in the database.
+
+Req. 3.6.2 (Caleb): The Knight class shall introduce a new set of Shields of varying levels, names, types, and stats, all stored in the database.
+
+Req. 3.6.3 (Caleb): The Knight class shall introdcue a new set of Weapons of varying levels, names, types, and stats, all stored in the database.
+
+Req. 3.6.4 (Caleb): The Knight class shall introduce a new set of Hero Perks found in Hero.py
+
 ### [User Story D](features.md "Ref. Features and User Stories")
 
 Req. 4.0 (Andrew): The modified app shall provide an autosave feature than can be toggled on/off by the user.
