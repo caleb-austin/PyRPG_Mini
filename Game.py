@@ -81,6 +81,9 @@ class Game:
         # width of centered data in screencenter
         self.datawidth = 55
 
+        #autosave flag
+        #self.ourhero.autosaveOn = True
+
     # TODO: make self.ourhero.levelup and newhero the same function
     # makes a new hero object for when starting new game.
     def newhero(self):
@@ -530,8 +533,9 @@ class Game:
 
     # a camp where you regain hp after so many fights.
     def camp(self):
-        print('AUTOSAVING...')
-        self.autosave()
+        if(self.ourhero.autosaveOn):
+            print('AUTOSAVING...')
+            self.autosave()
         camping = True
         while camping:
             self.ourhero.hp = self.ourhero.maxhp
@@ -540,7 +544,7 @@ class Game:
             centerprint('[a]dventure [i]tem [h]ero')
             centerprint('[p]eddler [b]lacksmith')
             centerprint('[v]iew information printout?')
-            centerprint('[l]oad [s]ave [q]uit')
+            centerprint('[l]oad [s]ave [t]oggle autosave [q]uit')
             m = input()
             if m == 'i':
                 iteming = True
@@ -576,6 +580,14 @@ class Game:
                 decision = input('Are you sure? [y]es, [ENTER] for no \t')
                 if decision == 'y':
                     quit()
+            elif m == 't':
+                if(self.ourhero.autosaveOn):
+                    print('Autosave is turned on: ')
+                else:
+                    print('Autosave is turned off: ')
+                decision  = input('Toggle autosave? [y]es, [ENTER] for no \t')
+                if(decision == 'y'):
+                    self.ourhero.toggleAutosave()
             elif m == 'v':
                 # option to print out useful information
                 print('\n')
