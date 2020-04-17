@@ -176,7 +176,7 @@ class Game:
 
         ourrand = random.randint(0, 100)
         if m == 'a':
-            if ourrand <= 70:
+            if ourrand <= -1:
                 self.ourhero.isbattling = True
                 # Make new enemy
                 self.ourenemy = self.getenemy()
@@ -187,7 +187,7 @@ class Game:
                     marqueeprint('[TURN ' + str(turnnum) + ']')
                     self.battle()
                     turnnum += 1
-            elif 70 < ourrand <= 90:
+            elif (70 < ourrand <= 90) or (self.debugging):
                 marqueeprint('[FOUND ITEM]')
                 itemrand = random.randrange(0, 6)
                 if itemrand == 0:
@@ -544,9 +544,7 @@ class Game:
             centerprint('[l]oad [s]ave [t]oggle autosave [q]uit')
             m = input()
             if m == 'i':
-                iteming = True
-                while iteming:
-                    iteming = self.item_management()
+                iteming = self.item_management()
             elif m == 'h':
                 marqueeprint('[HERO DETAIL]')
                 gridoutput(self.ourhero.datadict())
@@ -697,42 +695,77 @@ class Game:
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
     def item_management(self):
-        if not self.ourhero.items:
-            centerprint('Inventory Empty')
-            return False
-        # print all the item's info
-        for i, item in enumerate(self.ourhero.items):
-            leftprint('ITEM: ' + str(i+1))
-            gridoutput(self.ourhero.items[i].datadict())
-        centerprint('Please enter decision, [ENTER] to go back')
-        try:
-            itemindex = input()
-            itemindex = int(itemindex)
-            itemindex -= 1
-            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
-            del (self.ourhero.items[int(itemindex)])
-        except ValueError:
-            centerprint('Please enter a valid choice')
-            return False
-        except IndexError:
-            centerprint('Please enter a valid choice')
-            return False
-        self.ourhero.activeitem = self.ourhero.ouritem
-        centerprint('Using ' + str(self.ourhero.ouritem.name))
-        if self.ourhero.ouritem.name == 'Healing Potion':
-            self.healingpotion()
-        if self.ourhero.ouritem.name == 'Explosive Mana Vial':
-            if self.ourhero.isbattling:
-                self.explosivemanavial()
-            else:
-                centerprint('You\'re not in battle!')
+        inItems = True
+        while inItems :
+            marqueeprint('[ITEMS]')
+            if not self.ourhero.items:
+                centerprint('Inventory Empty')
                 return False
-        if self.ourhero.ouritem.name == 'Health Regen Potion':
-            self.healthregenpotion()
-        if self.ourhero.ouritem.name == 'Haste Potion':
-            self.hastepotion()
-        if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
-            self.weaponrepairtincture()
+            # print all the item's info
+            # for i, item in enumerate(self.ourhero.items):
+            #     leftprint('ITEM: ' + str(i+1))
+            #     gridoutput(self.ourhero.items[i].datadict())
+            for i, item in enumerate(self.ourhero.items):
+                leftprint('ITEM: ' + str(i+1) + ' - ' + self.ourhero.items[i].name)
+            centerprint('[u]se [i]nfo [d]rop [c]amp')
+            decision = input()
+            if decision == 'u':
+                centerprint('Select item to use ')
+                try:
+                    itemindex = input()
+                    itemindex = int(itemindex)
+                    itemindex -= 1
+                    self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+                    self.ourhero.activeitem = self.ourhero.ouritem
+                    centerprint('Using ' + str(self.ourhero.ouritem.name))
+                    if self.ourhero.ouritem.name == 'Healing Potion':
+                        self.healingpotion()
+                        del (self.ourhero.items[int(itemindex)])
+                    if self.ourhero.ouritem.name == 'Explosive Mana Vial':
+                        if self.ourhero.isbattling:
+                            self.explosivemanavial()
+                            del (self.ourhero.items[int(itemindex)])
+                        else:
+                            centerprint('You\'re not in battle!')
+                    if self.ourhero.ouritem.name == 'Health Regen Potion':
+                        self.healthregenpotion()
+                        del (self.ourhero.items[int(itemindex)])
+                    if self.ourhero.ouritem.name == 'Haste Potion':
+                        self.hastepotion()
+                        del (self.ourhero.items[int(itemindex)])
+                    if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
+                        self.weaponrepairtincture()
+                        del (self.ourhero.items[int(itemindex)])
+                except ValueError:
+                    centerprint('Please enter a valid choice')
+                except IndexError:
+                    centerprint('Please enter a valid choice')
+            elif decision == 'i':
+                try:
+                    centerprint('Select item to see details ')
+                    itemindex = input()
+                    itemindex = int(itemindex)
+                    itemindex -= 1
+                    gridoutput(self.ourhero.items[itemindex].datadict())
+                except ValueError:
+                    centerprint('Please enter a valid choice')
+                except IndexError:
+                    centerprint('Please enter a valid choice')
+            elif decision == 'd':
+                try:
+                    centerprint('Select item to see details ')
+                    itemindex = input()
+                    itemindex = int(itemindex)
+                    itemindex -= 1
+                    del (self.ourhero.items[itemindex])
+                except ValueError:
+                    centerprint('Please enter a valid choice')
+                except IndexError:
+                    centerprint('Please enter a valid choice')
+            elif decision == 'c':
+                inItems = False
+            else:
+                centerprint('Enter valid input')
 
     # hero uses a healing potion
     def healingpotion(self):
