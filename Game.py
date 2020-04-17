@@ -81,9 +81,6 @@ class Game:
         # width of centered data in screencenter
         self.datawidth = 55
 
-        #autosave flag
-        #self.ourhero.autosaveOn = True
-
     # TODO: make self.ourhero.levelup and newhero the same function
     # makes a new hero object for when starting new game.
     def newhero(self):
