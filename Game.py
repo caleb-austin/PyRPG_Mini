@@ -87,7 +87,7 @@ class Game:
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
         marqueeprint('[CHOOSE CLASS]')
-        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin')
+        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin [b]arbarian')
         ourclass = input()
         if ourclass == 'w' or ourclass == '':
             ourclass = 'warrior'
@@ -102,6 +102,8 @@ class Game:
         elif ourclass == 'as':
             ourclass = 'assassin'
             self.playing_assassin = True  # specify playing assassin for special attack rules
+        elif ourclass == 'b':
+            ourclass = 'barbarian'
         else:
             centerprint('Please enter a valid selection')
             ourclass = 'warrior'
