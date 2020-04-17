@@ -528,6 +528,8 @@ class Game:
 
     # a camp where you regain hp after so many fights.
     def camp(self):
+        print('AUTOSAVING...')
+        self.autosave()
         camping = True
         while camping:
             self.ourhero.hp = self.ourhero.maxhp
@@ -647,6 +649,11 @@ class Game:
     def savegame(self):
         # pickle hero object to file
         # should prompt to overwrite
+        dirlist = os.listdir('./saves/')
+        for i, item in enumerate(dirlist):
+            print(str(item))
+            print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
+            print('\n')
         heroname = input('Name your save file\nOr [c]ancel')
         if heroname == 'c':
             return
@@ -668,6 +675,13 @@ class Game:
                 with open(filepath + str(newname), 'wb') as f:
                     pickle.dump(gamedata, f, -1)
 
+    def autosave(self):
+        savefolder = "./saves/"
+        filepath = savefolder + self.ourhero.name + ':AUTOSAVE' + '.hero'
+        gamedata = self.ourhero
+        with open(filepath, 'wb') as f:
+            pickle.dump(gamedata, f, -1)
+        
     # TODO: Go back from item menu without enemy turn happening
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
