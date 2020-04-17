@@ -129,6 +129,8 @@ Req. 6.2 (Anthony): The modified game shall ensure proper control of flow, for e
 
 Req. 6.3 (Anthony): The modified game shall ensure input is correctly validated. 
 
+Req. 6.4 (Caleb): The modified game has more clear instructions at the start menu
+
 ### [User Story G](features.md "Ref. Features and User Stories")
 
 Req 7.0 (Andrew): The modified app shall have an expanded inventory management system to allow the user to store items and equipment acquired in the game.
