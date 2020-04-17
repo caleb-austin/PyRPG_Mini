@@ -176,7 +176,7 @@ class Game:
 
         ourrand = random.randint(0, 100)
         if m == 'a':
-            if ourrand <= -1:
+            if ourrand <= 70:
                 self.ourhero.isbattling = True
                 # Make new enemy
                 self.ourenemy = self.getenemy()
@@ -187,7 +187,7 @@ class Game:
                     marqueeprint('[TURN ' + str(turnnum) + ']')
                     self.battle()
                     turnnum += 1
-            elif (70 < ourrand <= 90) or (self.debugging):
+            elif 70 < ourrand <= 90:
                 marqueeprint('[FOUND ITEM]')
                 itemrand = random.randrange(0, 6)
                 if itemrand == 0:
@@ -701,10 +701,7 @@ class Game:
             if not self.ourhero.items:
                 centerprint('Inventory Empty')
                 return False
-            # print all the item's info
-            # for i, item in enumerate(self.ourhero.items):
-            #     leftprint('ITEM: ' + str(i+1))
-            #     gridoutput(self.ourhero.items[i].datadict())
+            # print all the item names
             for i, item in enumerate(self.ourhero.items):
                 leftprint('ITEM: ' + str(i+1) + ' - ' + self.ourhero.items[i].name)
             centerprint('[u]se [i]nfo [d]rop [c]amp')
