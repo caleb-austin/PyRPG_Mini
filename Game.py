@@ -23,8 +23,7 @@ class Game():
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
-<<<<<<< HEAD
-=======
+
         if self.debugging != '1':
             self.debugging = False
 
@@ -38,7 +37,6 @@ class Game():
                 print(information)
                 print('\n')
 
->>>>>>> 5f5c29635c420cbd136e4f1ef044138a3a6d8bf1
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()

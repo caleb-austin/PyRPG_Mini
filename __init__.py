@@ -13,7 +13,7 @@ def play():
     return render_template('play.html')
 
 @app.route('/about')
-def play():
+def about():
     return render_template('about.html')
 
 if __name__ == '__main__':
