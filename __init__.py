@@ -12,6 +12,10 @@ def home():
 def play():
     return render_template('play.html')
 
+@app.route('/about')
+def play():
+    return render_template('about.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
     ourgame = Game.Game()
