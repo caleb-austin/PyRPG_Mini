@@ -36,6 +36,7 @@ Main Gameplay:
         manage your item
         look at your hero stats
         buy items or answer a riddle from a peddler
+        play a mini-game to gain health
         fix or buy gear from the blacksmith
         load an existing game
         save the game
