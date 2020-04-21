@@ -530,6 +530,9 @@ class Game:
 
     # a camp where you regain hp after so many fights.
     def camp(self):
+        if(self.ourhero.autosaveOn):
+            print('AUTOSAVING...')
+            self.autosave()
         camping = True
         while camping:
             self.ourhero.hp = self.ourhero.maxhp
@@ -538,7 +541,7 @@ class Game:
             centerprint('[a]dventure [i]tem [h]ero')
             centerprint('[p]eddler [b]lacksmith')
             centerprint('[v]iew information printout?')
-            centerprint('[l]oad [s]ave [q]uit')
+            centerprint('[l]oad [s]ave [t]oggle autosave [q]uit')
             m = input()
             if m == 'i':
                 iteming = True
@@ -574,6 +577,14 @@ class Game:
                 decision = input('Are you sure? [y]es, [ENTER] for no \t')
                 if decision == 'y':
                     quit()
+            elif m == 't':
+                if(self.ourhero.autosaveOn):
+                    print('Autosave is turned on: ')
+                else:
+                    print('Autosave is turned off: ')
+                decision  = input('Toggle autosave? [y]es, [ENTER] for no \t')
+                if(decision == 'y'):
+                    self.ourhero.toggleAutosave()
             elif m == 'v':
                 # option to print out useful information
                 print('\n')
@@ -649,6 +660,11 @@ class Game:
     def savegame(self):
         # pickle hero object to file
         # should prompt to overwrite
+        dirlist = os.listdir('./saves/')
+        for i, item in enumerate(dirlist):
+            print(str(item))
+            print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
+            print('\n')
         heroname = input('Name your save file\nOr [c]ancel')
         if heroname == 'c':
             return
@@ -670,6 +686,13 @@ class Game:
                 with open(filepath + str(newname), 'wb') as f:
                     pickle.dump(gamedata, f, -1)
 
+    def autosave(self):
+        savefolder = "./saves/"
+        filepath = savefolder + self.ourhero.name + ':AUTOSAVE' + '.hero'
+        gamedata = self.ourhero
+        with open(filepath, 'wb') as f:
+            pickle.dump(gamedata, f, -1)
+        
     # TODO: Go back from item menu without enemy turn happening
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
