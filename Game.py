@@ -10,7 +10,7 @@ import dbsetup
 from texttools import *
 import numpy
 import csv
-
+import pandas as pd
 # game class makes the game work instantiates all other classes at some point.
 class Game:
     def __init__(self):
@@ -35,6 +35,12 @@ class Game:
                 information = f.read()
                 print(information)
                 print('\n')
+            df = pd.read_csv('csv/enemies.csv') #print out the different enemies without first names or levels
+            mNames = df.middlename.unique()
+            lNames = df.lastname.unique()
+            print("    Enemies you'll meet along the way include: ")
+            for x in range(0,len(mNames),1):
+                print("\t"+mNames[x] + " " + lNames[x])
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
