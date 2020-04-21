@@ -3,6 +3,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 1,Timid,Clammy,Robot,10,3,1,11,5,run
 1,Timid,Salty,Mystic,11,4,2,13,6,run
 1,Timid,Coffee,Codger,12,6,3,13,7,run
+1,Timid,John,Ireland,13,7,5,7,4,run
 1,Timid,Naked,Swindler,14,7,3,17,8,run
 2,Docile,YUUUGE,Politician,15,4,4,19,10,poison
 2,Docile,Cocksure,Talking Head,17,6,5,27,11,bleeding
@@ -14,6 +15,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 3,Bothered,Clammy,Robot,27,13,8,42,18,none
 3,Bothered,Salty,Mystic,31,14,9,45,20,none
 3,Bothered,Coffee,Codger,28,15,10,47,21,none
+3,Bothered,John,Ireland,30,17,11,48,28,run
 4,Dastardly,Naked,Swindler,29,16,10,50,22,poison
 4,Dastardly,YUUUGE,Politician,30,18,11,53,23,bleeding
 4,Dastardly,Cocksure,Talking Head,32,19,12,55,24,none
@@ -24,6 +26,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 5,Larger-than-average,Corny,Duck,39,25,15,68,31,none
 5,Larger-than-average,Clammy,Robot,40,26,15,71,32,none
 5,Larger-than-average,Salty,Mystic,41,27,16,74,33,none
+5,Larger-than-average,John,Ireland,51,25,20,80,37,run
 6,Aggressive,Coffee,Codger,43,29,17,76,34,poison
 6,Aggressive,Naked,Swindler,44,30,17,79,36,bleeding
 6,Aggressive,YUUUGE,Politician,45,31,18,81,37,none
@@ -34,6 +37,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 7,Cunning,Milky,Broseidon,52,37,21,94,43,none
 7,Cunning,Corny,Duck,54,50,22,97,44,none
 7,Cunning,Clammy,Robot,55,52,22,100,45,none
+7,Cunning,John,Ireland,60,57,30,112,39,none
 8,Fearsome,Salty,Mystic,56,53,23,102,47,poison
 8,Fearsome,Coffee,Codger,58,54,24,105,48,bleeding
 8,Fearsome,Naked,Swindler,59,43,24,108,49,none
@@ -44,6 +48,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 9,Intimidating,Roided,Rockman,66,49,28,121,55,none
 9,Intimidating,Milky,Broseidon,67,50,28,123,57,none
 9,Intimidating,Corny,Duck,69,52,29,126,58,none
+9,Intimidating,John,Ireland,75,56,30,130,60,run
 10,Godlike,Clammy,Robot,70,53,29,128,59,poison
 10,Godlike,Salty,Mystic,71,61,30,131,60,bleeding
 10,Godlike,Coffee,Codger,73,63,31,134,62,none
@@ -54,6 +59,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 11,Ascended,Oily,Sports Fan,80,61,34,147,68,none
 11,Ascended,Roided,Rockman,81,63,35,149,69,none
 11,Ascended,Milky,Broseidon,82,64,35,152,70,none
+11,Ascended,John,Ireland,90,60,40,170,79,run
 12,Ethereal,Corny,Duck,84,65,36,155,71,poison
 12,Ethereal,Clammy,Robot,85,66,36,157,73,bleeding
 12,Ethereal,Salty,Mystic,86,67,37,160,74,none
@@ -64,6 +70,7 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 13,Vile-Hardened,Crying,Simpleton,112,73,40,173,80,none
 13,Vile-Hardened,Oily,Sports Fan,114,82,41,175,81,none
 13,Vile-Hardened,Roided,Rockman,115,83,41,178,83,none
+13,Vile-Hardened,John,Ireland,120,90,45,191,87,none
 14,Vile-Aggressive,Milky,Broseidon,117,84,42,181,84,poison
 14,Vile-Aggressive,Corny,Duck,118,86,43,183,85,bleeding
 14,Vile-Aggressive,Clammy,Robot,120,80,43,186,86,none
@@ -74,3 +81,4 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 15,Vile-Superior,Cocksure,Talking Head,128,86,47,387,92,none
 15,Vile-Superior,Crying,Simpleton,130,87,47,397,94,none
 15,Vile-Superior,Oily,TRUMP,132,88,48,428,95,none
+15,Vile-Superior,John,Ireland,150,100,60,450,100,run
