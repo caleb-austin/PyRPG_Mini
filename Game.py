@@ -4,6 +4,8 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+import random
+import csv
 
 import Enemy
 import Hero
@@ -158,8 +160,31 @@ class Game():
         centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
         ournewhero.name = input()
         if ournewhero.name == '':
-            ournewhero.name = 'Sir Lazy'
+            ournewhero.name = self.randomName()
         return ournewhero
+
+    """@brief Creates a random name for the game
+
+    This is the random name generator function. The function creates two random
+    integers to use as the row read in the csv file. It then removes the brackets
+    and '' from the data and concatenates the string.
+    @param : none
+    @return : A concatenated string with a random name
+    """
+    def randomName(self):
+        randPrefix = random.randint(1,26)
+        randSuffix = random.randint(1,29)
+        with open('csv/MedievalPrefiexes.csv','rt') as prefixes:
+            csv_reader1 = csv.reader(prefixes)
+            prefixRows = list(csv_reader1)
+        with open('csv/MedievalSuffixes.csv','rt') as suffixes:
+            csv_reader2 = csv.reader(suffixes)
+            suffixRows = list(csv_reader2)
+        prefixName = prefixRows[randPrefix]
+        suffixName = suffixRows[randSuffix]
+        resPrefix = str(prefixName)[2:-2]
+        resSuffix = str(suffixName)[2:-2]
+        return resPrefix + " " + resSuffix
 
     # brings game back after death.
     def gameloop(self):
