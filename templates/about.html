@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1 class="display-3">About the Game</h1>
+    <p>
+      Welcome to the about me page. This game was developed by Crawsome, but as a group we decided
+      to add onto this game for our Intro to Software Engineering project. For more information on what
+      we did and how to play the game, please continue reading! Thank you for your support!
+    </p>
+  </div>
+</div>
+
+<p>PyRPG_Mini was an RPG game developed by crawsome. The game is made mostly in python with the help
+  of SQL. While the game was developed to be a relatively simple role-playing game, we thought that
+  we could make it something more. Our group for Intro to Software Engineering decided to add features
+  to the game to make it more viable. In that, we decided to add several brand new characters to the game
+  with all new features, all new mini games were added to create more incentive, and on top of that we
+  added more usability and stability to the game by adding features like saveability and a web application
+  still in production. With the help of Andrew Brown, Nour Hijazi, Anthony Mitchell, and myself
+  (Caleb Austin) we hope to make this game something so much more. Please enjoy. For further
+  instructions on how to play see the informational below.
+</p>
+
+<p>
+Classes:
+    The different playable character classes come with unique stats to help (or hinder) a player.
+    <ul class="list-group">
+      <li class="list-group-item">Warrior: As a tank, the warrior has exceptional HP, defense, and armor / shields. He is hampered his slow speed and slow leveling.</li>
+      <li class="list-group-item">Mage: The mage is a glass cannon with excellent damage but low health. Aim to take your enemies out first turn, or be ready to take massive damage!</li>
+      <li class="list-group-item">Hunter: The jack of all trades, hunter has the most average stats all around, plus a high dodge ability.</li>
+      <li class="list-group-item">Archer: Deadly from a distance, the archer has low damage but makes up for it with a high crit chance on his well aimed arrows. He is average in his other stats.</li>
+      <li class="list-group-item">Monk: The meditative monk features the highest dodge ability, as well as a leveling rate which rivals the mage. Average in his other abilities.</li>
+      <li class="list-group-item">Assassin: The assassin's low health is at stake in every battle. The only damage he can output is from criticals, with a 50% chance to hit on any attack. Want to roll the dice of fate?</li>
+      <li class="list-group-item">Barbarian: With enough attack force to humble a wild boar, the barbarian uses his mighty strength to pumble his opponents, however his primitive nature hinders technological prowess.</li>
+      <li class="list-group-item">Knight: While the knight may be slow, have no fear. This man can pack a punch and take some hits. With his well know swashbuckler and hauberk the Knight may be the perfect character for you.</li>
+    </ul>
+</p>
+
+<p>
+Main Gameplay:
+    While playing, you will have two main choices, Adventuring or Camping.
+</p>
+
+<p>
+Adventure:
+        A random selection of a battle, item, riddle, traveler.
+</p>
+
+<p>
+Battle: battle will give you several battle commands: attack, defend, run, use item, coinflip to heal for 100g. Upon finishing a battle, you are rewarded with gold and exp.
+</p>
+
+<p>
+Item: You luck upon an item, be it a piece of armor, shield, weapon, or usable item for  battle.
+</p>
+
+<p>
+Riddle: Answering a riddle correctly will provide you with gold and XP!
+</p>
+
+<p>
+Traveler: A lone traveler may appear, providing a tidbit of wisdom and gifting you some XP, gold, or nothing.
+
+    Camp: camping will regenerate your health, and offer features like:
+        adventure
+        manage your item
+        look at your hero stats
+        buy items or answer a riddle from a peddler
+        fix or buy gear from the blacksmith
+        load an existing game
+        save the game
+        quit the game
+</p>
+{% endblock %}

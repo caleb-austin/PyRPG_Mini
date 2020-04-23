@@ -9,10 +9,23 @@ import random
 import Enemy
 import Hero
 import dbsetup
+<<<<<<< HEAD
 from texttools import *
+<<<<<<< HEAD
 import numpy
 import csv
 
+=======
+<<<<<<< HEAD
+=======
+import numpy
+import csv
+>>>>>>> a084b8f6dc56deb7aa7deb99f5abb0ba4c3d61eb
+=======
+import numpy
+import csv
+>>>>>>> 71190a1f093daaf40fe0df0e01dbf57f4c7e96de
+>>>>>>> 35aee4bef4559e0556b92cb726c403814b1dec27
 
 # game class makes the game work instantiates all other classes at some point.
 
@@ -24,6 +37,7 @@ class Game():
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
+<<<<<<< HEAD
         correctInput = 0
         while(correctInput == 0):
             centerprint('Would you like to play in Debug Mode? [Y] for yes, [N] for no')
@@ -37,6 +51,14 @@ class Game():
                 correctInput = 1
             else:
                 centerprint("I'm sorry that is not a correct input. Please try again.\n")
+=======
+        self.debugging = 0
+        centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
+        self.debugging = input()
+
+        if self.debugging != '1':
+            self.debugging = False
+>>>>>>> 35aee4bef4559e0556b92cb726c403814b1dec27
 
         # option to print out useful information
         centerprint('View information printout? [Y] for yes, [N] for no')
