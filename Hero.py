@@ -59,8 +59,8 @@ class Hero:
         self.items = []
         self.activeitem = 0
 
-        # Gear container
-        self.gear = []
+        # Weapons
+        self.weapons = []
 
         # Keep track of battle count
         self.battlecount = 0
@@ -74,7 +74,8 @@ class Hero:
         self.defcurve = 0
 
         # equip objects
-        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
+        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none', True)
+        self.weapons.append(self.ourweapon)
         self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10)
         self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
         self.ouritem = Item.Item(0, 0, 0, 0, 0)
@@ -343,7 +344,7 @@ class Hero:
         newdb.conn.close()
         new_weapon_data = rows[0]
         ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
+                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6], False)
         return ournewweapon
 
     # fetches a new armor for hero
