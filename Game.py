@@ -8,12 +8,17 @@ from sqlite3 import connect
 import Enemy
 import Hero
 import dbsetup
+<<<<<<< HEAD
 from texttools import *
 <<<<<<< HEAD
 =======
 import numpy
 import csv
 >>>>>>> a084b8f6dc56deb7aa7deb99f5abb0ba4c3d61eb
+=======
+import numpy
+import csv
+>>>>>>> 71190a1f093daaf40fe0df0e01dbf57f4c7e96de
 
 # game class makes the game work instantiates all other classes at some point.
 
