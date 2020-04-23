@@ -4,15 +4,25 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+
 import Enemy
 import Hero
 import dbsetup
+<<<<<<< HEAD
 from texttools import *
+<<<<<<< HEAD
+=======
 import numpy
 import csv
+>>>>>>> a084b8f6dc56deb7aa7deb99f5abb0ba4c3d61eb
+=======
+import numpy
+import csv
+>>>>>>> 71190a1f093daaf40fe0df0e01dbf57f4c7e96de
 
 # game class makes the game work instantiates all other classes at some point.
-class Game:
+
+class Game():
     def __init__(self):
         # adds a little suspense
         # TODO: add suspense option to some printing methods?
@@ -23,6 +33,7 @@ class Game:
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
+
         if self.debugging != '1':
             self.debugging = False
 
