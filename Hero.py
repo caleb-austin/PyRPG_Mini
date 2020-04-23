@@ -83,6 +83,12 @@ class Hero:
         # width of centered data in screencenter
         self.datawidth = 40
 
+        #autosave flag
+        self.autosaveOn = True
+
+    def toggleAutosave(self):
+        self.autosaveOn = not self.autosaveOn
+        
     # Heals user up to max health
     def heal(self, hpup):
         centerprint('You heal for ' + str(int(hpup)) + ' HP')
