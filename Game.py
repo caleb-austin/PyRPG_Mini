@@ -4,24 +4,35 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+
 import Enemy
 import Hero
 import dbsetup
+
 from texttools import *
 
+import numpy
+import csv
+
+import numpy
+import csv
+
+import pandas as pd
 
 # game class makes the game work instantiates all other classes at some point.
-class Game:
+
+class Game():
     def __init__(self):
         # adds a little suspense
         # TODO: add suspense option to some printing methods?
-        self.suspensemode = 0
+        self.suspensemode = 0 #temp comment
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
+
         if self.debugging != '1':
             self.debugging = False
 
@@ -34,7 +45,12 @@ class Game:
                 information = f.read()
                 print(information)
                 print('\n')
-
+            df = pd.read_csv('csv/enemies.csv') #print out the different enemies without first names or levels
+            mNames = df.middlename.unique()
+            lNames = df.lastname.unique()
+            print("    Enemies you'll meet along the way include: ")
+            for x in range(0,len(mNames),1):
+                print("\t"+mNames[x] + " " + lNames[x])
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
@@ -153,11 +169,16 @@ class Game:
             marqueeprint('')
             centerprint('[n]ew game [l]oad')
             decision = input()
+
+            while(decision != 'n' and decision != 'l'):
+                centerprint("Please choose either [n]ew game or [l]oad")
+                decision = input()
             if decision == 'l':
                 print('lOADING GAME')
                 self.ourhero = self.loadgame()
                 self.ourenemy = self.getenemy()
             else:  # any other option will start a new game
+
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
                 self.ourenemy = self.getenemy()
@@ -540,6 +561,7 @@ class Game:
             centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
             centerprint('[a]dventure [i]tem [e]quipment [h]ero')
             centerprint('[p]eddler [b]lacksmith')
+            centerprint('[m]ini-game')
             centerprint('[v]iew information printout?')
             centerprint('[l]oad [s]ave [t]oggle autosave [q]uit')
             m = input()
@@ -577,6 +599,14 @@ class Game:
                 decision = input('Are you sure? [y]es, [ENTER] for no \t')
                 if decision == 'y':
                     quit()
+
+            elif m == 'm':
+                centerprint('[c]aesar cipher or [w]ord scramble')
+                decision = input()
+                if(decision == 'w'):
+                    self.scramble()
+                elif(decision == 'c'):
+                    self.caesar()
             elif m == 't':
                 if(self.ourhero.autosaveOn):
                     print('Autosave is turned on: ')
@@ -595,7 +625,135 @@ class Game:
             else:
                 centerprint('You walk back to camp')
 
-    # sell the hero items (will be able to buy soon)
+    #begin caesar cipher game
+    def caesar(self):
+        centerprint("A large board appears before you and asks you to decipher a set of words")
+        centerprint("But before you do, you must decide how much HP to bet")
+        centerprint("For each word you answer incorrectly, you will lose that amount health points")
+        centerprint("But for each you answer correctly, you will receive double")
+        HPWagered = self.validIntCheck(input())
+        centerprint("Excellent, let's begin")
+        centerprint("You will be given 3 words to decipher. Here is the first")
+        self.conn.execute('SELECT * FROM words ORDER BY RANDOM() LIMIT 3' + ';')
+        rows = self.conn.fetchall()
+        totalHPEarned = 0
+        correct = 0
+        for row in rows:
+            currentWordUnscrambled = row[0]
+            scrambled, answer = self.cipher(currentWordUnscrambled)
+            centerprint("Ciphered word: "  +  scrambled)
+            centerprint("answer: " + str(answer))
+            for i in range(3):
+                centerprint("Enter in an integer: ")
+                guess = self.validIntCheck(input())
+                if(guess == answer):
+                    centerprint("You are correct!")
+                    totalHPEarned += (2*HPWagered)
+                    correct += 1
+                    #centerprint("You have earned " + str(totalHPEarned - ((3 - correct - i )*HPWagered)) + " so far")
+                    break
+                else:
+                    centerprint("That was incorrect")
+                    centerprint("You have " + str(3-i-1) + " guesses left")
+                if(i == 2):
+                    centerprint("The correct answer was " + str(answer))
+                    centerprint("The word was " + currentWordUnscrambled)
+                    centerprint("-------------------------------------------------------------\n\n\n\n")
+        centerprint("You earned a total of " + str(totalHPEarned - ((3 - correct)*HPWagered)) + " HP")
+        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)
+        self.conn.execute('SELECT score FROM highScores WHERE game LIKE "%caesar"' + ';') #use like because I can't get rid of the ptr character
+        highScore = self.conn.fetchall()
+        centerprint("Current high score: " + str(highScore[0][0]))
+        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): # if current winnings exceeds the high score for the caesar cipher game
+            centerprint("You set a high score in earnings for the Caesar cipher game!")
+            sql = 'UPDATE highScores SET game = "caesar", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%caesar"' + ';'          
+            self.conn.execute(sql) #update the database with the new high score
+            r = csv.reader(open('./csv/highScores.csv')) # update with the csv with the new high score
+            lines = list(r)
+            lines[0][1] = self.ourhero.name
+            lines[0][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
+            writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
+            writer.writerows(lines)
+        
+        centerprint("Ave atque vale!")
+    def cipher(self, word):
+        randomNum = random.randint(1,25)
+        randomNum = random.randint(1,25)
+        randomNum = random.randint(1,25)
+        word = word.strip()
+        newWord=""
+        for i in word:
+            numToAdd = ord(i) + randomNum
+            if(numToAdd > 122):
+                numToAdd -= 26
+            newWord = newWord + chr(numToAdd)
+        return newWord,randomNum
+    
+	#check if string is valid int
+    def validIntCheck(self, stringNum):
+        while(not(stringNum.isnumeric())):
+            stringNum = input("Please enter a positive integer: ")
+        return int(stringNum)
+	
+		
+	#begin word scramble game
+    def scramble(self):
+        print("Word Scrambler!")
+        centerprint("A large board appears before you and asks you to unscramble a set of words")
+        centerprint("But before you do, you must decide how much HP to bet")
+        centerprint("For each word you answer incorrectly, you will lose that amount health points")
+        centerprint("But for each you answer correctly, you will receive double")
+        HPWagered = self.validIntCheck(input())
+        centerprint("Excellent, let's begin")
+        centerprint("You will be given 3 words to unscramble. Here is the first")
+        self.conn.execute('SELECT * FROM words ORDER BY RANDOM() LIMIT 3' + ';')
+        rows = self.conn.fetchall()
+        totalHPEarned = 0
+        correct = 0
+        for row in rows:
+            currentWordUnscrambled = row[0].strip()
+            scrambled = self.scrambler(currentWordUnscrambled)
+            centerprint("Scrambled word: "  +  scrambled)
+            centerprint("Answer: " + currentWordUnscrambled)
+            for i in range(3):
+                centerprint("Enter in the first guess: ")
+                guess = input()
+                if(guess.lower() == currentWordUnscrambled.lower()):
+                    centerprint("You are correct!")
+                    totalHPEarned += (2*HPWagered)
+                    correct += 1
+                    #centerprint("You have earned " + str(totalHPEarned - ((3 - correct - i )*HPWagered)) + " so far")
+                    break
+                else:
+                    centerprint("That was incorrect")
+                    centerprint("You have " + str(3-i-1) + " guesses left")
+                if(i == 2):
+                    centerprint("The correct answer was " + currentWordUnscrambled)
+                    centerprint("-------------------------------------------------------------\n\n\n\n")
+        centerprint("You earned a total of " + str(totalHPEarned - ((3 - correct)*HPWagered)) + " HP")
+        self.ourhero.hp += 	totalHPEarned - ((3 - correct)*HPWagered)
+        self.conn.execute('SELECT score FROM highScores WHERE game LIKE "%scramble"' + ';') #use like because I can't get rid of the ptr character
+        highScore = self.conn.fetchall()
+        centerprint("Current high score: " + str(highScore[0][0]))
+        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): #if their current winnings exceeds the high score in that game 
+            centerprint("You set a high score in earnings for the Word Scramble game!")
+            sql = 'UPDATE highScores SET game = "scramble", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%scramble"' + ';'            
+            self.conn.execute(sql)#update the database 
+            r = csv.reader(open('./csv/highScores.csv', 'r')) #update the csv file
+            lines = list(r)
+            lines[1][1] = self.ourhero.name
+            lines[1][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
+            writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
+            writer.writerows(lines)		
+    def scrambler(self,word): 
+        word = word.strip()
+        wordArray = list(word)
+        numpy.random.shuffle(wordArray)
+        word = ' '.join(wordArray)
+        word.strip()
+        return word
+		
+	# sell the hero items (will be able to buy soon)
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
         centerprint('He shows his wares:')
@@ -646,7 +804,10 @@ class Game:
             print(str(i) + ' - ' + str(item))
             print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
             print('\n')
-        index = input("Which Character?\nOr [c]ancel")
+        index = self.validIntCheck(input("Which Character?\nOr [c]ancel"))
+        while(index >= len(dirlist)):
+            centerprint("Please choose one of the available save files")
+            index = self.validIntCheck(input())
         if index == '':
             index = 0
         if index == 'c':
@@ -697,74 +858,42 @@ class Game:
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
     def item_management(self):
-        inItems = True
-        while inItems :
-            marqueeprint('[ITEMS]')
-            if not self.ourhero.items:
-                centerprint('Inventory Empty')
-                return False
-            # print all the item names
-            for i, item in enumerate(self.ourhero.items):
-                leftprint('ITEM: ' + str(i+1) + ' - ' + self.ourhero.items[i].name)
-            centerprint('[u]se [i]nfo [d]rop [c]amp')
-            decision = input()
-            if decision == 'u':
-                centerprint('Select item to use ')
-                try:
-                    itemindex = input()
-                    itemindex = int(itemindex)
-                    itemindex -= 1
-                    self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
-                    self.ourhero.activeitem = self.ourhero.ouritem
-                    centerprint('Using ' + str(self.ourhero.ouritem.name))
-                    if self.ourhero.ouritem.name == 'Healing Potion':
-                        self.healingpotion()
-                        del (self.ourhero.items[int(itemindex)])
-                    if self.ourhero.ouritem.name == 'Explosive Mana Vial':
-                        if self.ourhero.isbattling:
-                            self.explosivemanavial()
-                            del (self.ourhero.items[int(itemindex)])
-                        else:
-                            centerprint('You\'re not in battle!')
-                    if self.ourhero.ouritem.name == 'Health Regen Potion':
-                        self.healthregenpotion()
-                        del (self.ourhero.items[int(itemindex)])
-                    if self.ourhero.ouritem.name == 'Haste Potion':
-                        self.hastepotion()
-                        del (self.ourhero.items[int(itemindex)])
-                    if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
-                        self.weaponrepairtincture()
-                        del (self.ourhero.items[int(itemindex)])
-                except ValueError:
-                    centerprint('Please enter a valid choice')
-                except IndexError:
-                    centerprint('Please enter a valid choice')
-            elif decision == 'i':
-                try:
-                    centerprint('Select item to see details ')
-                    itemindex = input()
-                    itemindex = int(itemindex)
-                    itemindex -= 1
-                    gridoutput(self.ourhero.items[itemindex].datadict())
-                except ValueError:
-                    centerprint('Please enter a valid choice')
-                except IndexError:
-                    centerprint('Please enter a valid choice')
-            elif decision == 'd':
-                try:
-                    centerprint('Select item to see details ')
-                    itemindex = input()
-                    itemindex = int(itemindex)
-                    itemindex -= 1
-                    del (self.ourhero.items[itemindex])
-                except ValueError:
-                    centerprint('Please enter a valid choice')
-                except IndexError:
-                    centerprint('Please enter a valid choice')
-            elif decision == 'c':
-                inItems = False
+        if not self.ourhero.items:
+            centerprint('Inventory Empty')
+            return False
+        # print all the item's info
+        for i, item in enumerate(self.ourhero.items):
+            leftprint('ITEM: ' + str(i+1))
+            gridoutput(self.ourhero.items[i].datadict())
+        centerprint('Please enter decision, [ENTER] to go back')
+        try:
+            itemindex = input()
+            itemindex = int(itemindex)
+            itemindex -= 1
+            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+            del (self.ourhero.items[int(itemindex)])
+        except ValueError:
+            centerprint('Please enter a valid choice')
+            return False
+        except IndexError:
+            centerprint('Please enter a valid choice')
+            return False
+        self.ourhero.activeitem = self.ourhero.ouritem
+        centerprint('Using ' + str(self.ourhero.ouritem.name))
+        if self.ourhero.ouritem.name == 'Healing Potion':
+            self.healingpotion()
+        if self.ourhero.ouritem.name == 'Explosive Mana Vial':
+            if self.ourhero.isbattling:
+                self.explosivemanavial()
             else:
-                centerprint('Enter valid input')
+                centerprint('You\'re not in battle!')
+                return False
+        if self.ourhero.ouritem.name == 'Health Regen Potion':
+            self.healthregenpotion()
+        if self.ourhero.ouritem.name == 'Haste Potion':
+            self.hastepotion()
+        if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
+            self.weaponrepairtincture()
 
     #equipment inventory screen
     def equipment_management(self):
