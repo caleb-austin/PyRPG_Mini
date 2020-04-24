@@ -944,6 +944,8 @@ class Game():
                                 self.ourhero.ourweapon = self.ourhero.weapons[int(itemindex)]
                                 self.ourhero.ourweapon.setIsEquipped(True)
                             elif(decision1 == 'a'):
+                                if(itemindex >= len(self.ourhero.armor) or itemindex < 0):
+                                    raise IndexError
                                 self.ourhero.ourarmor.setIsEquipped(False)
                                 self.ourhero.ourarmor = self.ourhero.armor[int(itemindex)]
                                 self.ourhero.ourarmor.setIsEquipped(True)
@@ -958,8 +960,12 @@ class Game():
                             itemindex = int(itemindex)
                             itemindex -= 1
                             if(decision1 == 'w'):
+                                if(itemindex >= len(self.ourhero.weapons) or itemindex < 0):
+                                    raise IndexError
                                 gridoutput(self.ourhero.weapons[itemindex].datadict())
                             elif(decision1 == 'a'):
+                                if(itemindex >= len(self.ourhero.armor) or itemindex < 0):
+                                    raise IndexError
                                 gridoutput(self.ourhero.armor[itemindex].datadict())
                         except ValueError:
                             centerprint('Please enter a valid choice')
@@ -972,11 +978,15 @@ class Game():
                             itemindex = int(itemindex)
                             itemindex -= 1
                             if(decision1 == 'w'):
+                                if(itemindex >= len(self.ourhero.weapons) or itemindex < 0):
+                                    raise IndexError
                                 if not self.ourhero.weapons[itemindex].getIsEquipped():
                                     del (self.ourhero.weapons[itemindex])
                                 else:
                                     centerprint('Cannot delete equipped item')
                             elif(decision1 == 'a'):
+                                if(itemindex >= len(self.ourhero.armor) or itemindex < 0):
+                                    raise IndexError
                                 if not self.ourhero.armor[itemindex].getIsEquipped():
                                     del (self.ourhero.armor[itemindex])
                                 else:
