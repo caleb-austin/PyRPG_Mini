@@ -8,17 +8,16 @@ from sqlite3 import connect
 import Enemy
 import Hero
 import dbsetup
-<<<<<<< HEAD
+
 from texttools import *
-<<<<<<< HEAD
-=======
+
 import numpy
 import csv
->>>>>>> a084b8f6dc56deb7aa7deb99f5abb0ba4c3d61eb
-=======
+
 import numpy
 import csv
->>>>>>> 71190a1f093daaf40fe0df0e01dbf57f4c7e96de
+
+import pandas as pd
 
 # game class makes the game work instantiates all other classes at some point.
 
@@ -46,6 +45,12 @@ class Game():
                 information = f.read()
                 print(information)
                 print('\n')
+            df = pd.read_csv('csv/enemies.csv') #print out the different enemies without first names or levels
+            mNames = df.middlename.unique()
+            lNames = df.lastname.unique()
+            print("    Enemies you'll meet along the way include: ")
+            for x in range(0,len(mNames),1):
+                print("\t"+mNames[x] + " " + lNames[x])
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
         self.riddlemode = input()
