@@ -197,7 +197,7 @@ class Game():
 
         ourrand = random.randint(0, 100)
         if m == 'a':
-            if ourrand <= -1:
+            if ourrand <= 70:
                 self.ourhero.isbattling = True
                 # Make new enemy
                 self.ourenemy = self.getenemy()
@@ -208,16 +208,16 @@ class Game():
                     marqueeprint('[TURN ' + str(turnnum) + ']')
                     self.battle()
                     turnnum += 1
-            elif 0 < ourrand <= 90:
+            elif 70 < ourrand <= 90:
                 marqueeprint('[FOUND ITEM]')
-                itemrand = random.randrange(0, 1)
-                if itemrand == 1:
+                itemrand = random.randrange(0, 6)
+                if itemrand == 0:
                     newArmor = self.ourhero.newarmor()
                     self.foundArmor(newArmor)
                 elif itemrand == 1:
                     newWeapon = self.ourhero.newweapon()
                     self.foundWeapon(newWeapon)
-                elif itemrand == 0:
+                elif itemrand == 2:
                     newShield = self.ourhero.newshield()
                     self.foundShield(newShield)
                 elif 3 <= itemrand <= 6:
@@ -524,25 +524,37 @@ class Game():
             if itemindex not in ['1', '2', '3', '']:
                 centerprint('Please enter a valid choice')
             elif itemindex == '1':
-                self.ourhero.ourweapon = weaponforsale
                 if self.ourhero.gold < wepcost:
                     centerprint('You don\'t have enough money!')
-                self.ourhero.gold -= wepcost
-                centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
+                else:
+                    self.ourhero.gold -= wepcost
+                    centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
+                    self.ourhero.ourweapon.setIsEquipped(False)
+                    self.ourhero.ourweapon = weaponforsale
+                    self.ourhero.ourweapon.setIsEquipped(True)
+                    self.ourhero.weapons.append(self.ourhero.ourweapon)
             elif itemindex == '2':
-                self.ourhero.ourshield = shieldforsale
-                if self.ourhero.gold < wepcost:
-                    centerprint('You don\'t have enough money!')
-                    return
-                self.ourhero.gold -= armcost
-                centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
-            elif itemindex == '3':
-                self.ourhero.ourarmor = armorforsale
                 if self.ourhero.gold < shcost:
                     centerprint('You don\'t have enough money!')
                     return
-                self.ourhero.gold -= shcost
-                centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
+                else:
+                    self.ourhero.gold -= shcost
+                    centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
+                    self.ourhero.ourshield.setIsEquipped(False)
+                    self.ourhero.ourshield = shieldforsale
+                    self.ourhero.ourshield.setIsEquipped(True)
+                    self.ourhero.shields.append(self.ourhero.ourshield)
+            elif itemindex == '3':
+                if self.ourhero.gold < armcost:
+                    centerprint('You don\'t have enough money!')
+                    return
+                else:
+                    self.ourhero.gold -= armcost
+                    centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
+                    self.ourhero.ourarmor.setIsEquipped(False)
+                    self.ourhero.ourarmor = armorforsale
+                    self.ourhero.ourarmor.setIsEquipped(True)
+                    self.ourhero.armor.append(self.ourhero.ourarmor)
             self.ourhero.applyequip()
 
         if nextdecision != 'r':  # for anything other than returning to camp, go back to blacksmith
@@ -971,6 +983,7 @@ class Game():
                             centerprint('Please enter a valid choice')
                         except IndexError:
                             centerprint('Please enter a valid choice')
+                        self.ourhero.applyequip()
                     elif decision == 'i':
                         try:
                             centerprint('Select item to see details ')
@@ -1116,6 +1129,7 @@ class Game():
                 self.ourhero.ourweapon = newWeapon
                 self.ourhero.ourweapon.setIsEquipped(True)
                 self.ourhero.weapons.append(self.ourhero.ourweapon)
+                self.ourhero.applyequip()
                 iteming = False
             elif decision == 's':
                 newWeapon.setIsEquipped(False)
@@ -1138,6 +1152,7 @@ class Game():
                 self.ourhero.ourarmor = newArmor
                 self.ourhero.ourarmor.setIsEquipped(True)
                 self.ourhero.armor.append(self.ourhero.ourarmor)
+                self.ourhero.applyequip()
                 iteming = False
             elif decision == 's':
                 newArmor.setIsEquipped(False)
@@ -1160,6 +1175,7 @@ class Game():
                 self.ourhero.ourshield = newShield
                 self.ourhero.ourshield.setIsEquipped(True)
                 self.ourhero.shields.append(self.ourhero.ourshield)
+                self.ourhero.applyequip()
                 iteming = False
             elif decision == 's':
                 newShield.setIsEquipped(False)

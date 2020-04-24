@@ -85,6 +85,7 @@ class Hero:
         self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10, True)
         self.armor.append(self.ourarmor)
         self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20, True)
+        self.shields.append(self.ourshield)
         self.ouritem = Item.Item(0, 0, 0, 0, 0)
         self.isbattling = False
 
