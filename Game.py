@@ -9,23 +9,12 @@ import random
 import Enemy
 import Hero
 import dbsetup
-<<<<<<< HEAD
 from texttools import *
-<<<<<<< HEAD
 import numpy
 import csv
 
-=======
-<<<<<<< HEAD
-=======
-import numpy
-import csv
->>>>>>> a084b8f6dc56deb7aa7deb99f5abb0ba4c3d61eb
-=======
-import numpy
-import csv
->>>>>>> 71190a1f093daaf40fe0df0e01dbf57f4c7e96de
->>>>>>> 35aee4bef4559e0556b92cb726c403814b1dec27
+
+
 
 # game class makes the game work instantiates all other classes at some point.
 
@@ -37,7 +26,6 @@ class Game():
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
-<<<<<<< HEAD
         correctInput = 0
         while(correctInput == 0):
             centerprint('Would you like to play in Debug Mode? [Y] for yes, [N] for no')
@@ -51,14 +39,12 @@ class Game():
                 correctInput = 1
             else:
                 centerprint("I'm sorry that is not a correct input. Please try again.\n")
-=======
         self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
         self.debugging = input()
 
         if self.debugging != '1':
             self.debugging = False
->>>>>>> 35aee4bef4559e0556b92cb726c403814b1dec27
 
         # option to print out useful information
         centerprint('View information printout? [Y] for yes, [N] for no')
@@ -715,7 +701,7 @@ class Game():
         centerprint("Current high score: " + str(highScore[0][0]))
         if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): # if current winnings exceeds the high score for the caesar cipher game
             centerprint("You set a high score in earnings for the Caesar cipher game!")
-            sql = 'UPDATE highScores SET game = "caesar", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%caesar"' + ';'          
+            sql = 'UPDATE highScores SET game = "caesar", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%caesar"' + ';'
             self.conn.execute(sql) #update the database with the new high score
             r = csv.reader(open('./csv/highScores.csv')) # update with the csv with the new high score
             lines = list(r)
@@ -723,7 +709,7 @@ class Game():
             lines[0][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
             writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
             writer.writerows(lines)
-        
+
         centerprint("Ave atque vale!")
     def cipher(self, word):
         randomNum = random.randint(1,25)
@@ -737,14 +723,14 @@ class Game():
                 numToAdd -= 26
             newWord = newWord + chr(numToAdd)
         return newWord,randomNum
-    
+
 	#check if string is valid int
     def validIntCheck(self, stringNum):
         while(not(stringNum.isnumeric())):
             stringNum = input("Please enter a positive integer: ")
         return int(stringNum)
-	
-		
+
+
 	#begin word scramble game
     def scramble(self):
         print("Word Scrambler!")
@@ -784,24 +770,24 @@ class Game():
         self.conn.execute('SELECT score FROM highScores WHERE game LIKE "%scramble"' + ';') #use like because I can't get rid of the ptr character
         highScore = self.conn.fetchall()
         centerprint("Current high score: " + str(highScore[0][0]))
-        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): #if their current winnings exceeds the high score in that game 
+        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): #if their current winnings exceeds the high score in that game
             centerprint("You set a high score in earnings for the Word Scramble game!")
-            sql = 'UPDATE highScores SET game = "scramble", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%scramble"' + ';'            
-            self.conn.execute(sql)#update the database 
+            sql = 'UPDATE highScores SET game = "scramble", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%scramble"' + ';'
+            self.conn.execute(sql)#update the database
             r = csv.reader(open('./csv/highScores.csv', 'r')) #update the csv file
             lines = list(r)
             lines[1][1] = self.ourhero.name
             lines[1][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
             writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
-            writer.writerows(lines)		
-    def scrambler(self,word): 
+            writer.writerows(lines)
+    def scrambler(self,word):
         word = word.strip()
         wordArray = list(word)
         numpy.random.shuffle(wordArray)
         word = ' '.join(wordArray)
         word.strip()
         return word
-		
+
 	# sell the hero items (will be able to buy soon)
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
@@ -902,7 +888,7 @@ class Game():
         gamedata = self.ourhero
         with open(filepath, 'wb') as f:
             pickle.dump(gamedata, f, -1)
-        
+
     # TODO: Go back from item menu without enemy turn happening
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
