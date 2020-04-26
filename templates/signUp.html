@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>PyRPG_Mini</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="jumbotron text-center">
+    <div class="container">
+      <h1 class="display-3">Sign Up</h1>
+    </div>
+  </div>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+  <div class="container">
+    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+      <form id="signUp" onsubmit="return validate(this)" action="/home">
+        <div class="form-group">
+          <input type="username" class="form-control" id="exampleInputUsername1" placeholder="Enter Username" required>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+        </div>
+	<div class="form-group">
+          <input type="password" class="form-control" id="confirmInputPassword1" placeholder="Confirm Password" required><p id="validate"></p>
+        </div>
+	<div class="form-group">
+          <input type="email" class="form-control" id="emailAddress" placeholder="email@website.com" required>
+        </div>
+	
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </div>
+      </form><br>
+	<p><a class="btn btn-primary btn-lg" href="/" role="button">Log in</a></p>
+    </div>
+  </div>
+<script>
+function validate(form) {
+	var passOrig = form.exampleInputPassword1.value;
+	var passConfirm = form.confirmInputPassword1.value;
+	if(passOrig.localeCompare(passConfirm) == 0) {
+		document.getElementById("validate").innerHTML = "Passwords are not the same";
+		var nonAlphaChars = ["!","@", "#", "%"];
+		var numbers = ["1","2", "3", "4", "5", "6", "7", "8", "9", "0"];
+		if(passOrig.length > 7 && passOrig.length < 33 && new RegExp(nonAlphaChars.join("|")).test(passOrig) && new RegExp(numbers.join("|")).test(passOrig)) {
+			return true;
+			
+		} else {
+			alert("Your password must be 8 to 32 characters long, must contains at least one number, and one of the following symbols '!@#%'");
+			return false;
+		}
+        } else {
+		document.getElementById("validate").innerHTML = "";
+		return false;
+		
+	}
+}
+
+</script>
+</body>
+
+</html>
