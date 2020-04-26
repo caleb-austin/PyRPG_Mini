@@ -44,6 +44,25 @@ to the about page which renders about.html.
 def about():
     return render_template('about.html')
 
+"""@brief This is a flask route for the password reset page
+
+If the user forgets their password on the login page, they can click a button
+to redirect them here
+@param : none
+"""
+@app.route('/resetPass')
+def resetPass():
+    return render_template('resetPass.html')
+
+"""@brief This is a flask route for the sign up page
+
+The user can sign up for an account; upon success, it will redirect them to the home page
+@param : none
+"""
+@app.route('/signUp')
+def signUp():
+    return render_template('signUp.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
     ourgame = Game.Game()
