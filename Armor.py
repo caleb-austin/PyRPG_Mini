@@ -4,7 +4,7 @@ import random
 
 class Armor:
     # level,classtype,name,type,basedef,durability
-    def __init__(self, armorlevel, armorclasstype, armorname, armortype, armorbasedef, armordur):
+    def __init__(self, armorlevel, armorclasstype, armorname, armortype, armorbasedef, armordur, armorequipped):
         # level
         self.level = armorlevel
 
@@ -57,6 +57,17 @@ class Armor:
         elif self.quality == 'Legendary':
             self.maxdur = int(self.maxdur * 2)
         self.dur = self.maxdur
+
+        # equipped
+        self.isEquipped = armorequipped
+
+    # set equip status
+    def setIsEquipped(self, armorequipped):
+        self.isEquipped = armorequipped
+    
+    # get equip status
+    def getIsEquipped(self):
+        return self.isEquipped
 
     # damage durability, and check to see if broken
     def damagedur(self, aug, curve):

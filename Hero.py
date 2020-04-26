@@ -59,8 +59,14 @@ class Hero:
         self.items = []
         self.activeitem = 0
 
-        # Gear container
-        self.gear = []
+        # Weapons
+        self.weapons = []
+
+        # Armor
+        self.armor = []
+
+        # Shields
+        self.shields = []
 
         # Keep track of battle count
         self.battlecount = 0
@@ -74,9 +80,12 @@ class Hero:
         self.defcurve = 0
 
         # equip objects
-        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
-        self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10)
-        self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
+        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none', True)
+        self.weapons.append(self.ourweapon)
+        self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10, True)
+        self.armor.append(self.ourarmor)
+        self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20, True)
+        self.shields.append(self.ourshield)
         self.ouritem = Item.Item(0, 0, 0, 0, 0)
         self.isbattling = False
 
@@ -343,7 +352,7 @@ class Hero:
         newdb.conn.close()
         new_weapon_data = rows[0]
         ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
+                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6], False)
         return ournewweapon
 
     # fetches a new armor for hero
@@ -355,7 +364,7 @@ class Hero:
         newdb.conn.close()
         new_armor_data = rows[0]
         ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
-                                  new_armor_data[4], new_armor_data[5])
+                                  new_armor_data[4], new_armor_data[5], False)
         return ournewarmor
 
     # fetches a new shield for hero
@@ -367,7 +376,7 @@ class Hero:
         newdb.conn.close()
         new_shield_data = rows[0]
         ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
-                                     new_shield_data[4], new_shield_data[5])
+                                     new_shield_data[4], new_shield_data[5], False)
         return ournewshield
 
     # fetches a new item for hero
