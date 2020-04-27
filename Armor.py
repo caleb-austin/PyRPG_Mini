@@ -66,8 +66,7 @@ class Armor:
         """
         Sets Armor equip status, True/False.
 
-        Args:
-            armorequipped: Set Armor equipped to True/False.
+        @param armorequipped Set Armor equipped to True/False.
         """
         self.isEquipped = armorequipped
     
@@ -76,8 +75,7 @@ class Armor:
         """
         Get Armor equip status, True/False.
 
-        Returns:
-            True/False whether current Armor is equipped.
+        @return True/false whether current Armor is equipped.
         """
         return self.isEquipped
 

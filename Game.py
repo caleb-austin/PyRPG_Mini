@@ -919,8 +919,7 @@ class Game():
         Equipment menu accessed from Camp. User can equip, drop or get info 
         on equipment in inventory. 
 
-        Raises:
-            IndexError & ValueError.
+        @exceptions IndexError & ValueError
         """
         inEquip = True
         while inEquip :
@@ -1136,8 +1135,7 @@ class Game():
         While adventuring, the Hero finds a new weapon and make a choice to
         equip, store or discard the new weapon.
 
-        Args: 
-            newWeapon: Weapon object for the new weapon found.
+        @param newWeapon Weapon object for the new weapon found.
         """
         iteming = True
         gridoutput(newWeapon.datadict())
@@ -1166,8 +1164,7 @@ class Game():
         While adventuring, the Hero finds a new piece of armor and make a choice to
         equip, store or discard the new armor.
 
-        Args: 
-            newArmor: Armor object for the new armor found.
+        @param newArmor Armor object for the new armor found.
         """
         iteming = True
         gridoutput(newArmor.datadict())
@@ -1196,8 +1193,7 @@ class Game():
         While adventuring, the Hero finds a new shield and make a choice to
         equip, store or discard the new shield.
 
-        Args: 
-            newShield: Shield object for the new shield found.
+        @param newShield Shield object for the new shield found.
         """
         iteming = True
         gridoutput(newShield.datadict())

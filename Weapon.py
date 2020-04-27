@@ -61,8 +61,7 @@ class Weapon:
         """
         Sets Weapon equip status, True/False.
 
-        Args:
-            weaponequipped: Set Weapon equipped to True/False.
+        @param weaponequipped Set Weapon equipped to True/False.
         """
         self.isEquipped = weaponequipped
     
@@ -71,8 +70,7 @@ class Weapon:
         """
         Get Weapon equip status, True/False.
 
-        Returns:
-            True/False whether current Weapon is equipped.
+        @return True/False whether current Weapon is equipped.
         """
         return self.isEquipped
 

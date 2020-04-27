@@ -69,8 +69,7 @@ class Shield:
         """
         Sets Shield equip status, True/False.
 
-        Args:
-            shieldequipped: Set Shield equipped to True/False.
+         @param shieldequipped Set Shield equipped to True/False.
         """
         self.isEquipped = shieldequipped
     
@@ -79,8 +78,7 @@ class Shield:
         """
         Get Shield equip status, True/False.
 
-        Returns:
-            True/False whether current Shield is equipped.
+        @return True/False whether current Shield is equipped.
         """
         return self.isEquipped
 
