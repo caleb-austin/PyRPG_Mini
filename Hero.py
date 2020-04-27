@@ -96,6 +96,9 @@ class Hero:
         self.autosaveOn = True
 
     def toggleAutosave(self):
+        """
+        Toggle autosave on/off.
+        """
         self.autosaveOn = not self.autosaveOn
         
     # Heals user up to max health

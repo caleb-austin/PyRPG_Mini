@@ -63,10 +63,22 @@ class Armor:
 
     # set equip status
     def setIsEquipped(self, armorequipped):
+        """
+        Sets Armor equip status, True/False.
+
+        Args:
+            armorequipped: Set Armor equipped to True/False.
+        """
         self.isEquipped = armorequipped
     
     # get equip status
     def getIsEquipped(self):
+        """
+        Get Armor equip status, True/False.
+
+        Returns:
+            True/False whether current Armor is equipped.
+        """
         return self.isEquipped
 
     # damage durability, and check to see if broken
