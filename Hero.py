@@ -88,7 +88,7 @@ class Hero:
 
     def toggleAutosave(self):
         self.autosaveOn = not self.autosaveOn
-        
+
     # Heals user up to max health
     def heal(self, hpup):
         centerprint('You heal for ' + str(int(hpup)) + ' HP')
@@ -176,6 +176,13 @@ class Hero:
             return False
 
     # applies hero's perks
+    """@brief Sets stats to hero chosen
+
+    This function sets all of the various stats 
+    for the specific hero chosen.
+    @param none
+    @return none
+    """
     def heroperks(self):
         if self.ourclass == 'warrior':
             # more HP
