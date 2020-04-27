@@ -26,6 +26,11 @@ class Game():
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
+        """
+        This snippet was made to create a more readable and intuitive
+        start menu. This loops through until correct input is given to then
+        further yourself in the game.
+        """
         correctInput = 0
         while(correctInput == 0):
             centerprint('Would you like to play in Debug Mode? [Y] for yes, [N] for no')
@@ -39,12 +44,7 @@ class Game():
                 correctInput = 1
             else:
                 centerprint("I'm sorry that is not a correct input. Please try again.\n")
-        self.debugging = 0
-        centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
-        self.debugging = input()
 
-        if self.debugging != '1':
-            self.debugging = False
 
         # option to print out useful information
         centerprint('View information printout? [Y] for yes, [N] for no')
@@ -57,6 +57,10 @@ class Game():
                 print('\n')
         # riddle mode 0 - optional, 1 - mandatory
         # preset riddle mode to mandatory
+        """
+        This again makes a continuous loop to get correct input from
+        the user to play with riddles on.
+        """
         while(correctInput == 1):
             centerprint('Would you like to play with riddles? [Y] for yes, [N] for no')
             self.riddlemode = input()
@@ -168,6 +172,11 @@ class Game():
         marqueeprint('[ENTER NAME]')
         centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
         ournewhero.name = input()
+        """
+        If the user does not plave their name in
+        a random name is generated for them with the randomName()
+        function. 
+        """
         if ournewhero.name == '':
             ournewhero.name = self.randomName()
         return ournewhero
