@@ -12,8 +12,7 @@ import dbsetup
 from texttools import *
 import numpy
 import csv
-
-
+import pandas as pd
 
 
 # game class makes the game work instantiates all other classes at some point.
@@ -55,6 +54,12 @@ class Game():
                 information = f.read()
                 print(information)
                 print('\n')
+            df = pd.read_csv('csv/enemies.csv') #print out the different enemies without first names or levels
+            mNames = df.middlename.unique()
+            lNames = df.lastname.unique()
+            print("    Enemies you'll meet along the way include: ")
+            for x in range(0,len(mNames),1):
+                print("\t"+mNames[x] + " " + lNames[x])
         # riddle mode 0 - optional, 1 - mandatory
         # preset riddle mode to mandatory
         """
@@ -115,27 +120,47 @@ class Game():
 
     # TODO: make self.ourhero.levelup and newhero the same function
     # makes a new hero object for when starting new game.
+    """@brief sets up hero
+
+    This function asks the user to select which hero they
+    would like to be. If the correct input is not put in
+    the Hero is automatically set to warrior. The user
+    is then able to select the difficulty they would like to
+    play on.
+    @param none
+    @return the new hero object
+    """
     def newhero(self):
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
         marqueeprint('[CHOOSE CLASS]')
-        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin [b]arbarian')
+        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin [b]arbarian [k]night')
         ourclass = input()
         if ourclass == 'w' or ourclass == '':
             ourclass = 'warrior'
+            centerprint('Class set to warrior')
         elif ourclass == 'm':
             ourclass = 'mage'
+            centerprint('Class set to mage')
         elif ourclass == 'h':
             ourclass = 'hunter'
+            centerprint('Class set to hunter')
         elif ourclass == 'a':
             ourclass = 'archer'
+            centerprint('Class set to archer')
         elif ourclass == 'mo':
             ourclass = 'monk'
+            centerprint('Class set to monk')
         elif ourclass == 'as':
             ourclass = 'assassin'
             self.playing_assassin = True  # specify playing assassin for special attack rules
+            centerprint('Class set to assassin')
         elif ourclass == 'b':
             ourclass = 'barbarian'
+            centerprint('Class set to barbarian')
+        elif ourclass == 'k'
+            ourclass == 'knight'
+            centerprint('Class set to knight')
         else:
             centerprint('Please enter a valid selection')
             ourclass = 'warrior'
@@ -256,14 +281,14 @@ class Game():
                 marqueeprint('[FOUND ITEM]')
                 itemrand = random.randrange(0, 6)
                 if itemrand == 0:
-                    self.ourhero.ourarmor = self.ourhero.newarmor()
-                    gridoutput(self.ourhero.ourarmor.datadict())
+                    newArmor = self.ourhero.newarmor()
+                    self.foundArmor(newArmor)
                 elif itemrand == 1:
-                    self.ourhero.ourweapon = self.ourhero.newweapon()
-                    gridoutput(self.ourhero.ourweapon.datadict())
+                    newWeapon = self.ourhero.newweapon()
+                    self.foundWeapon(newWeapon)
                 elif itemrand == 2:
-                    self.ourhero.ourshield = self.ourhero.newshield()
-                    gridoutput(self.ourhero.ourshield.datadict())
+                    newShield = self.ourhero.newshield()
+                    self.foundShield(newShield)
                 elif 3 <= itemrand <= 6:
                     self.ourhero.ouritem = self.ourhero.newitem()
                     gridoutput(self.ourhero.ouritem.datadict())
@@ -568,25 +593,37 @@ class Game():
             if itemindex not in ['1', '2', '3', '']:
                 centerprint('Please enter a valid choice')
             elif itemindex == '1':
-                self.ourhero.ourweapon = weaponforsale
                 if self.ourhero.gold < wepcost:
                     centerprint('You don\'t have enough money!')
-                self.ourhero.gold -= wepcost
-                centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
+                else:
+                    self.ourhero.gold -= wepcost
+                    centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
+                    self.ourhero.ourweapon.setIsEquipped(False)
+                    self.ourhero.ourweapon = weaponforsale
+                    self.ourhero.ourweapon.setIsEquipped(True)
+                    self.ourhero.weapons.append(self.ourhero.ourweapon)
             elif itemindex == '2':
-                self.ourhero.ourshield = shieldforsale
-                if self.ourhero.gold < wepcost:
-                    centerprint('You don\'t have enough money!')
-                    return
-                self.ourhero.gold -= armcost
-                centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
-            elif itemindex == '3':
-                self.ourhero.ourarmor = armorforsale
                 if self.ourhero.gold < shcost:
                     centerprint('You don\'t have enough money!')
                     return
-                self.ourhero.gold -= shcost
-                centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
+                else:
+                    self.ourhero.gold -= shcost
+                    centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
+                    self.ourhero.ourshield.setIsEquipped(False)
+                    self.ourhero.ourshield = shieldforsale
+                    self.ourhero.ourshield.setIsEquipped(True)
+                    self.ourhero.shields.append(self.ourhero.ourshield)
+            elif itemindex == '3':
+                if self.ourhero.gold < armcost:
+                    centerprint('You don\'t have enough money!')
+                    return
+                else:
+                    self.ourhero.gold -= armcost
+                    centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
+                    self.ourhero.ourarmor.setIsEquipped(False)
+                    self.ourhero.ourarmor = armorforsale
+                    self.ourhero.ourarmor.setIsEquipped(True)
+                    self.ourhero.armor.append(self.ourhero.ourarmor)
             self.ourhero.applyequip()
 
         if nextdecision != 'r':  # for anything other than returning to camp, go back to blacksmith
@@ -603,16 +640,16 @@ class Game():
             self.ourhero.hp = self.ourhero.maxhp
             marqueeprint('[CAMP]')
             centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
-            centerprint('[a]dventure [i]tem [h]ero')
+            centerprint('[a]dventure [i]tem [e]quipment [h]ero')
             centerprint('[p]eddler [b]lacksmith')
             centerprint('[m]ini-game')
             centerprint('[v]iew information printout?')
             centerprint('[l]oad [s]ave [t]oggle autosave [q]uit')
             m = input()
             if m == 'i':
-                iteming = True
-                while iteming:
-                    iteming = self.item_management()
+                iteming = self.item_management()
+            elif m == 'e':
+                self.equipment_management()
             elif m == 'h':
                 marqueeprint('[HERO DETAIL]')
                 gridoutput(self.ourhero.datadict())
@@ -939,6 +976,147 @@ class Game():
         if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
             self.weaponrepairtincture()
 
+    #equipment inventory screen
+    def equipment_management(self):
+        inEquip = True
+        while inEquip :
+            marqueeprint('[Equipment]')
+            centerprint('[w]eapons [a]rmor [s]hields [c]amp')
+            decision1 = input()
+            if(decision1 == 'w' or decision1 == 'a' or decision1 == 's'):
+                inSelection = True
+                while inSelection:
+                    if(decision1 == 'w'):
+                        if not self.ourhero.weapons:
+                            centerprint('Inventory Empty')
+                            return False
+                        # print all the weapon names
+                        for i, item in enumerate(self.ourhero.weapons):
+                            if self.ourhero.weapons[i].getIsEquipped():
+                                leftprint('Weapon: ' + str(i+1) + ' - ' + self.ourhero.weapons[i].name + ' '
+                                + self.ourhero.weapons[i].type + ' - EQUIPPED')
+                            else:
+                                leftprint('Weapon: ' + str(i+1) + ' - ' + self.ourhero.weapons[i].name + ' '
+                                + self.ourhero.weapons[i].type)
+                    elif(decision1 == 'a'):
+                        if not self.ourhero.armor:
+                            centerprint('Inventory Empty')
+                            return False
+                        # print all the armor names
+                        for i, item in enumerate(self.ourhero.armor):
+                            if self.ourhero.armor[i].getIsEquipped():
+                                leftprint('Armor: ' + str(i+1) + ' - ' + self.ourhero.armor[i].name + ' '
+                                + self.ourhero.armor[i].type + ' - EQUIPPED')
+                            else:
+                                leftprint('Armor: ' + str(i+1) + ' - ' + self.ourhero.armor[i].name + ' '
+                                + self.ourhero.armor[i].type)
+                    elif(decision1 == 's'):
+                        if not self.ourhero.shields:
+                            centerprint('Inventory Empty')
+                            return False
+                        # print all the armor names
+                        for i, item in enumerate(self.ourhero.shields):
+                            if self.ourhero.shields[i].getIsEquipped():
+                                leftprint('Shield: ' + str(i+1) + ' - ' + self.ourhero.shields[i].name + ' '
+                                + self.ourhero.shields[i].type + ' - EQUIPPED')
+                            else:
+                                leftprint('Shield: ' + str(i+1) + ' - ' + self.ourhero.shields[i].name + ' '
+                                + self.ourhero.shields[i].type)
+                    centerprint('[e]quip [i]nfo [d]rop [b]ack [c]amp')
+                    decision = input()
+                    if decision == 'e':
+                        centerprint('Select item to equip ')
+                        try:
+                            itemindex = input()
+                            itemindex = int(itemindex)
+                            itemindex -= 1
+                            if(decision1 == 'w'):
+                                if(itemindex >= len(self.ourhero.weapons) or itemindex < 0):
+                                    raise IndexError
+                                self.ourhero.ourweapon.setIsEquipped(False)
+                                self.ourhero.ourweapon = self.ourhero.weapons[int(itemindex)]
+                                self.ourhero.ourweapon.setIsEquipped(True)
+                            elif(decision1 == 'a'):
+                                if(itemindex >= len(self.ourhero.armor) or itemindex < 0):
+                                    raise IndexError
+                                self.ourhero.ourarmor.setIsEquipped(False)
+                                self.ourhero.ourarmor = self.ourhero.armor[int(itemindex)]
+                                self.ourhero.ourarmor.setIsEquipped(True)
+                            elif(decision1 == 's'):
+                                if(itemindex >= len(self.ourhero.shields) or itemindex < 0):
+                                    raise IndexError
+                                self.ourhero.ourshield.setIsEquipped(False)
+                                self.ourhero.ourshield = self.ourhero.shields[int(itemindex)]
+                                self.ourhero.ourshield.setIsEquipped(True)
+                        except ValueError:
+                            centerprint('Please enter a valid choice')
+                        except IndexError:
+                            centerprint('Please enter a valid choice')
+                        self.ourhero.applyequip()
+                    elif decision == 'i':
+                        try:
+                            centerprint('Select item to see details ')
+                            itemindex = input()
+                            itemindex = int(itemindex)
+                            itemindex -= 1
+                            if(decision1 == 'w'):
+                                if(itemindex >= len(self.ourhero.weapons) or itemindex < 0):
+                                    raise IndexError
+                                gridoutput(self.ourhero.weapons[itemindex].datadict())
+                            elif(decision1 == 'a'):
+                                if(itemindex >= len(self.ourhero.armor) or itemindex < 0):
+                                    raise IndexError
+                                gridoutput(self.ourhero.armor[itemindex].datadict())
+                            elif(decision1 == 's'):
+                                if(itemindex >= len(self.ourhero.shields) or itemindex < 0):
+                                    raise IndexError
+                                gridoutput(self.ourhero.shields[itemindex].datadict())
+                        except ValueError:
+                            centerprint('Please enter a valid choice')
+                        except IndexError:
+                            centerprint('Please enter a valid choice')
+                    elif decision == 'd':
+                        try:
+                            centerprint('Select item to discard')
+                            itemindex = input()
+                            itemindex = int(itemindex)
+                            itemindex -= 1
+                            if(decision1 == 'w'):
+                                if(itemindex >= len(self.ourhero.weapons) or itemindex < 0):
+                                    raise IndexError
+                                if not self.ourhero.weapons[itemindex].getIsEquipped():
+                                    del (self.ourhero.weapons[itemindex])
+                                else:
+                                    centerprint('Cannot delete equipped item')
+                            elif(decision1 == 'a'):
+                                if(itemindex >= len(self.ourhero.armor) or itemindex < 0):
+                                    raise IndexError
+                                if not self.ourhero.armor[itemindex].getIsEquipped():
+                                    del (self.ourhero.armor[itemindex])
+                                else:
+                                    centerprint('Cannot delete equipped item')
+                            elif(decision1 == 's'):
+                                if(itemindex >= len(self.ourhero.shields) or itemindex < 0):
+                                    raise IndexError
+                                if not self.ourhero.shields[itemindex].getIsEquipped():
+                                    del (self.ourhero.shields[itemindex])
+                                else:
+                                    centerprint('Cannot delete equipped item')
+                        except ValueError:
+                            centerprint('Please enter a valid choice')
+                        except IndexError:
+                            centerprint('Please enter a valid choice')
+                    elif decision == 'b':
+                        inSelection = False
+                    elif decision == 'c':
+                        inSelection = False
+                        inEquip = False
+                    else:
+                        centerprint('Enter valid input')
+            elif decision1 == 'c':
+                    inEquip = False
+            else:
+                centerprint('Enter valid input')
     # hero uses a healing potion
     def healingpotion(self):
         marqueeprint('[HEALING POTION]')
@@ -1007,3 +1185,72 @@ class Game():
         print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', self.textwidth))
         print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', self.textwidth))
         print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', self.textwidth))
+
+    # Found new weapon
+    def foundWeapon(self, newWeapon):
+        iteming = True
+        gridoutput(newWeapon.datadict())
+        while iteming:
+            centerprint('[e]quip [s]tore [d]iscard')
+            decision = input()
+            if decision == 'e':
+                self.ourhero.ourweapon.setIsEquipped(False)
+                self.ourhero.ourweapon = newWeapon
+                self.ourhero.ourweapon.setIsEquipped(True)
+                self.ourhero.weapons.append(self.ourhero.ourweapon)
+                self.ourhero.applyequip()
+                iteming = False
+            elif decision == 's':
+                newWeapon.setIsEquipped(False)
+                self.ourhero.weapons.append(newWeapon)
+                iteming = False
+            elif decision == 'd':
+                iteming = False
+            else:
+                centerprint('Enter valid input')
+
+    # Found new Armor
+    def foundArmor(self, newArmor):
+        iteming = True
+        gridoutput(newArmor.datadict())
+        while iteming:
+            centerprint('[e]quip [s]tore [d]iscard')
+            decision = input()
+            if decision == 'e':
+                self.ourhero.ourarmor.setIsEquipped(False)
+                self.ourhero.ourarmor = newArmor
+                self.ourhero.ourarmor.setIsEquipped(True)
+                self.ourhero.armor.append(self.ourhero.ourarmor)
+                self.ourhero.applyequip()
+                iteming = False
+            elif decision == 's':
+                newArmor.setIsEquipped(False)
+                self.ourhero.armor.append(newArmor)
+                iteming = False
+            elif decision == 'd':
+                iteming = False
+            else:
+                centerprint('Enter valid input')
+
+    # Found new Shield
+    def foundShield(self, newShield):
+        iteming = True
+        gridoutput(newShield.datadict())
+        while iteming:
+            centerprint('[e]quip [s]tore [d]iscard')
+            decision = input()
+            if decision == 'e':
+                self.ourhero.ourshield.setIsEquipped(False)
+                self.ourhero.ourshield = newShield
+                self.ourhero.ourshield.setIsEquipped(True)
+                self.ourhero.shields.append(self.ourhero.ourshield)
+                self.ourhero.applyequip()
+                iteming = False
+            elif decision == 's':
+                newShield.setIsEquipped(False)
+                self.ourhero.shields.append(newShield)
+                iteming = False
+            elif decision == 'd':
+                iteming = False
+            else:
+                centerprint('Enter valid input')

@@ -4,7 +4,7 @@ import random
 
 class Weapon:
     # level,class,name,type,baseattack,durability,power
-    def __init__(self, weaponlevel, weaponclass, weaponname, weapontype, weaponbaseatk, weapondur, weaponpower):
+    def __init__(self, weaponlevel, weaponclass, weaponname, weapontype, weaponbaseatk, weapondur, weaponpower, weaponquipped):
         # Weapon level
         self.level = weaponlevel
 
@@ -16,6 +16,9 @@ class Weapon:
 
         # Weapon Name
         self.name = weaponname
+
+        # equipped
+        self.isEquipped = weaponquipped
 
         # Weapon Quality (rusty, common, great, magical, legendary)
         chance = random.randint(1, 100)
@@ -52,6 +55,14 @@ class Weapon:
 
         # Weapon Power (Not implemented yet)
         self.power = weaponpower
+
+    # set equip status
+    def setIsEquipped(self, weaponequipped):
+        self.isEquipped = weaponequipped
+    
+    # get equip status
+    def getIsEquipped(self):
+        return self.isEquipped
 
     # damage durability, and check to see if broken
     def damagedur(self, aug, curve):
