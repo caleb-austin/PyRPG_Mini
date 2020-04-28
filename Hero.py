@@ -97,7 +97,7 @@ class Hero:
 
     def toggleAutosave(self):
         self.autosaveOn = not self.autosaveOn
-        
+
     # Heals user up to max health
     def heal(self, hpup):
         centerprint('You heal for ' + str(int(hpup)) + ' HP')
@@ -185,6 +185,13 @@ class Hero:
             return False
 
     # applies hero's perks
+    """@brief Sets stats to hero chosen
+
+    This function sets all of the various stats 
+    for the specific hero chosen.
+    @param none
+    @return none
+    """
     def heroperks(self):
         if self.ourclass == 'warrior':
             # more HP
@@ -277,6 +284,20 @@ class Hero:
             self.levelupaug = .7
             # high crit chance boost
             self.critaug = 4
+        elif self.ourclass == 'knight':
+            # best health because of armor
+            self.hpaug = 18
+            # low dodge due to weight
+            self.dodgeaug = 3
+            # high DEF due to armor
+            self.defaug = 14
+            # decent attack
+            self.atkaug = 3
+            # med leveling capability
+            self.levelupaug = .65
+            # low crit chance boost
+            self.crtiaug = 1
+
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug

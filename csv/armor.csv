@@ -5,6 +5,7 @@ level,classtype,name,type,basedef,durability
 1,archer,weak,tunic,2,25
 1,monk,weak,kasaya,1,23
 1,assassin,weak,cloak,2,15
+1,knight,weak,hauberk,6,34
 1,barbarian,weak,pareu,1,10
 2,warrior,Novice,plate,7,36
 2,mage,Novice,robe,6,18
@@ -12,6 +13,7 @@ level,classtype,name,type,basedef,durability
 2,archer,Novice,tunic,5,30
 2,monk,Novice,kasaya,4,25
 2,assassin,Novice,cloak,6,18
+2,knight,Novice,hauberk,9,40
 2,barbarian,Novice,pareu,3,15
 3,warrior,Old,plate,10,43
 3,mage,Old,robe,8,22
@@ -19,6 +21,7 @@ level,classtype,name,type,basedef,durability
 3,archer,Old,tunic,8,35
 3,monk,Old,kasaya,7,30
 3,assassin,Old,cloak,8,22
+3,knight,Old,hauberk,13,47
 3,barbarian,Old,pareu,5,19
 4,warrior,Leather,plate,14,52
 4,mage,Leather,robe,11,26
@@ -26,6 +29,7 @@ level,classtype,name,type,basedef,durability
 4,archer,Leather,tunic,11,40
 4,monk,Leather,kasaya,9,37
 4,assassin,Leather,cloak,11,26
+4,knight,Leather,hauberk,19,54
 4,barbarian,Leather,pareu,8,24
 5,warrior,melancholy,plate,17,62
 5,mage,melancholy,robe,14,31
@@ -33,6 +37,7 @@ level,classtype,name,type,basedef,durability
 5,archer,melancholy,tunic,15,45
 5,monk,melancholy,kasaya,14,44
 5,assassin,melancholy,cloak,14,31
+5,knight,melancholy,hauberk,21,59
 5,barbarian,melancholy,pareu,8,27
 6,warrior,banded,plate,21,75
 6,mage,banded,robe,17,37
@@ -40,6 +45,7 @@ level,classtype,name,type,basedef,durability
 6,archer,banded,tunic,17,55
 6,monk,banded,kasaya,16,50
 6,assassin,banded,cloak,17,37
+6,knight,banded,hauberk,23,63
 6,barbarian,banded,pareu,11,31
 7,warrior,large,plate,24,90
 7,mage,large,robe,20,45
@@ -47,6 +53,7 @@ level,classtype,name,type,basedef,durability
 7,archer,large,tunic,20,64
 7,monk,large,kasaya,18,60
 7,assassin,large,cloak,20,45
+7,knight,large,hauberk,26,94
 7,barbarian,large,pareu,14,37
 8,warrior,Gilded,plate,28,107
 8,mage,Gilded,robe,22,54
@@ -54,6 +61,7 @@ level,classtype,name,type,basedef,durability
 8,archer,Gilded,tunic,22,75
 8,monk,Gilded,kasaya,20,74
 8,assassin,Gilded,cloak,22,54
+8,knight,Gilded,hauberk,28,112
 8,barbarian,Gilded,pareu,17,43
 9,warrior,enchanted,plate,31,129
 9,mage,enchanted,robe,25,64
@@ -61,6 +69,7 @@ level,classtype,name,type,basedef,durability
 9,archer,enchanted,tunic,25,90
 9,monk,enchanted,kasaya,24,88
 9,assassin,enchanted,cloak,25,64
+9,knight,enchanted,hauberk,31,135
 9,barbarian,enchanted,pareu,21,52
 10,warrior,reinforced,plate,34,155
 10,mage,reinforced,robe,28,77
@@ -68,6 +77,7 @@ level,classtype,name,type,basedef,durability
 10,archer,reinforced,tunic,28,110
 10,monk,reinforced,kasaya,26,100
 10,assassin,reinforced,cloak,28,77
+10,knight,reinforced,hauberk,31,162
 10,barbarian,reinforced,pareu,25,61
 11,warrior,moaning,plate,38,186
 11,mage,moaning,robe,31,93
@@ -75,6 +85,7 @@ level,classtype,name,type,basedef,durability
 11,archer,moaning,tunic,31,137
 11,monk,moaning,kasaya,30,125
 11,assassin,moaning,cloak,31,93
+11,knight,moaning,hauberk,36,189
 11,barbarian,moaning,pareu,28,78
 12,warrior,blessed,plate,41,223
 12,mage,blessed,robe,34,111
@@ -82,6 +93,7 @@ level,classtype,name,type,basedef,durability
 12,archer,blessed,tunic,34,161
 12,monk,blessed,kasaya,33,145
 12,assassin,blessed,cloak,34,111
+12,knight,blessed,hauberk,40,230
 12,barbarian,blessed,pareu,32,92
 13,warrior,talking,plate,45,267
 13,mage,talking,robe,37,134
@@ -89,6 +101,7 @@ level,classtype,name,type,basedef,durability
 13,archer,talking,tunic,37,186
 13,monk,talking,kasaya,35,160
 13,assassin,talking,cloak,37,134
+13,knight,talking,hauberk,42,275
 13,barbarian,talking,pareu,34,112
 14,warrior,glowing,plate,48,321
 14,mage,glowing,robe,39,160
@@ -96,6 +109,7 @@ level,classtype,name,type,basedef,durability
 14,archer,glowing,tunic,39,210
 14,monk,glowing,kasaya,36,190
 14,assassin,glowing,cloak,39,160
+14,knight,glowing,hauberk,44,340
 14,barbarian,glowing,pareu,35,136
 15,warrior,epic,plate,52,385
 15,mage,epic,robe,42,193
@@ -103,4 +117,5 @@ level,classtype,name,type,basedef,durability
 15,archer,epic,tunic,42,256
 15,monk,epic,kasaya,39,230
 15,assassin,epic,cloak,42,193
+15,knight,epic,hauberk,47,392
 15,barbarian,epic,pareu,38,175

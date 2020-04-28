@@ -13,8 +13,10 @@ Classes:
 
     Assassin: The assassin's low health is at stake in every battle. The only damage he can output is from criticals, with a 50% chance to hit on any attack. Want to roll the dice of fate?
 
-   Barbarian: With enough attack force to humble a wild boar, the barbarian uses his mighty strength to pumble his opponents, however his primitive nature hinders technological prowess.
-   
+    Barbarian: With enough attack force to humble a wild boar, the barbarian uses his mighty strength to pumble his opponents, however his primitive nature hinders technological prowess.
+
+    Knight: As a defensive unit, the Knight can take vast hits with his staggering defense and high HP. His low Attack, and leveling hinder him, but he is seemingly invincible in battle.
+
 Main Gameplay:
     While playing, you will have two main choices, Adventuring or Camping.
 

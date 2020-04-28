@@ -99,27 +99,47 @@ class Game():
 
     # TODO: make self.ourhero.levelup and newhero the same function
     # makes a new hero object for when starting new game.
+    """@brief sets up hero
+
+    This function asks the user to select which hero they
+    would like to be. If the correct input is not put in
+    the Hero is automatically set to warrior. The user
+    is then able to select the difficulty they would like to
+    play on.
+    @param none
+    @return the new hero object
+    """
     def newhero(self):
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
         marqueeprint('[CHOOSE CLASS]')
-        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin [b]arbarian')
+        centerprint('[w]arrior [m]age [h]unter [a]rcher [mo]nk [as]sassin [b]arbarian [k]night')
         ourclass = input()
         if ourclass == 'w' or ourclass == '':
             ourclass = 'warrior'
+            centerprint('Class set to warrior')
         elif ourclass == 'm':
             ourclass = 'mage'
+            centerprint('Class set to mage')
         elif ourclass == 'h':
             ourclass = 'hunter'
+            centerprint('Class set to hunter')
         elif ourclass == 'a':
             ourclass = 'archer'
+            centerprint('Class set to archer')
         elif ourclass == 'mo':
             ourclass = 'monk'
+            centerprint('Class set to monk')
         elif ourclass == 'as':
             ourclass = 'assassin'
             self.playing_assassin = True  # specify playing assassin for special attack rules
+            centerprint('Class set to assassin')
         elif ourclass == 'b':
             ourclass = 'barbarian'
+            centerprint('Class set to barbarian')
+        elif ourclass == 'k'
+            ourclass == 'knight'
+            centerprint('Class set to knight')
         else:
             centerprint('Please enter a valid selection')
             ourclass = 'warrior'
@@ -678,7 +698,7 @@ class Game():
         centerprint("Current high score: " + str(highScore[0][0]))
         if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): # if current winnings exceeds the high score for the caesar cipher game
             centerprint("You set a high score in earnings for the Caesar cipher game!")
-            sql = 'UPDATE highScores SET game = "caesar", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%caesar"' + ';'          
+            sql = 'UPDATE highScores SET game = "caesar", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%caesar"' + ';'
             self.conn.execute(sql) #update the database with the new high score
             r = csv.reader(open('./csv/highScores.csv')) # update with the csv with the new high score
             lines = list(r)
@@ -686,7 +706,7 @@ class Game():
             lines[0][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
             writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
             writer.writerows(lines)
-        
+
         centerprint("Ave atque vale!")
     def cipher(self, word):
         randomNum = random.randint(1,25)
@@ -700,14 +720,14 @@ class Game():
                 numToAdd -= 26
             newWord = newWord + chr(numToAdd)
         return newWord,randomNum
-    
+
 	#check if string is valid int
     def validIntCheck(self, stringNum):
         while(not(stringNum.isnumeric())):
             stringNum = input("Please enter a positive integer: ")
         return int(stringNum)
-	
-		
+
+
 	#begin word scramble game
     def scramble(self):
         print("Word Scrambler!")
@@ -747,24 +767,24 @@ class Game():
         self.conn.execute('SELECT score FROM highScores WHERE game LIKE "%scramble"' + ';') #use like because I can't get rid of the ptr character
         highScore = self.conn.fetchall()
         centerprint("Current high score: " + str(highScore[0][0]))
-        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): #if their current winnings exceeds the high score in that game 
+        if(int(highScore[0][0]) < (totalHPEarned - ((3 - correct)*HPWagered))): #if their current winnings exceeds the high score in that game
             centerprint("You set a high score in earnings for the Word Scramble game!")
-            sql = 'UPDATE highScores SET game = "scramble", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%scramble"' + ';'            
-            self.conn.execute(sql)#update the database 
+            sql = 'UPDATE highScores SET game = "scramble", name = "' + self.ourhero.name + '",  score = ' + str((totalHPEarned - ((3 - correct)*HPWagered))) + ' WHERE game like "%scramble"' + ';'
+            self.conn.execute(sql)#update the database
             r = csv.reader(open('./csv/highScores.csv', 'r')) #update the csv file
             lines = list(r)
             lines[1][1] = self.ourhero.name
             lines[1][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
             writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
-            writer.writerows(lines)		
-    def scrambler(self,word): 
+            writer.writerows(lines)
+    def scrambler(self,word):
         word = word.strip()
         wordArray = list(word)
         numpy.random.shuffle(wordArray)
         word = ' '.join(wordArray)
         word.strip()
         return word
-		
+
 	# sell the hero items (will be able to buy soon)
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
@@ -865,7 +885,7 @@ class Game():
         gamedata = self.ourhero
         with open(filepath, 'wb') as f:
             pickle.dump(gamedata, f, -1)
-        
+
     # TODO: Go back from item menu without enemy turn happening
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
