@@ -707,6 +707,12 @@ class Game():
                 centerprint('You walk back to camp')
 
     #begin caesar cipher game
+	"""
+	This function begins a new caesar cipher game. It will add/subtract from the player's health
+	and update the database and csv with a new high score if necessary
+	@param:none
+	@return none
+	"""
     def caesar(self):
         centerprint("A large board appears before you and asks you to decipher a set of words")
         centerprint("But before you do, you must decide how much HP to bet")
@@ -757,6 +763,11 @@ class Game():
             writer.writerows(lines)
 
         centerprint("Ave atque vale!")
+	"""
+	This cipher return a normal word ciphered by a random int. 
+	@param: the word to cipher
+	@return: the ciphered word 
+	"""
     def cipher(self, word):
         randomNum = random.randint(1,25)
         randomNum = random.randint(1,25)
@@ -771,6 +782,11 @@ class Game():
         return newWord,randomNum
 
 	#check if string is valid int
+	"""
+	This function checks if an entered string is a valid int
+	@param: the string that the user entered in
+	@return: the new int
+	"""
     def validIntCheck(self, stringNum):
         while(not(stringNum.isnumeric())):
             stringNum = input("Please enter a positive integer: ")
@@ -778,6 +794,13 @@ class Game():
 
 
 	#begin word scramble game
+	"""
+	This function begins the word scramble mini game. It will add/subtract from a player's health and update
+	the database and csv with a new high score if necessary
+	@param: none
+	@return: none
+	
+	"""
     def scramble(self):
         print("Word Scrambler!")
         centerprint("A large board appears before you and asks you to unscramble a set of words")
@@ -826,6 +849,11 @@ class Game():
             lines[1][2] = str((totalHPEarned - ((3 - correct)*HPWagered)))
             writer = csv.writer(open('./csv/highScores.csv', 'w', newline=''))
             writer.writerows(lines)
+    """
+	This function takes a normal word and scrambles it by randomly shuffling its letters
+	@param: world to be scrambled
+	@return: the newly scrambled word
+	"""
     def scrambler(self,word):
         word = word.strip()
         wordArray = list(word)
