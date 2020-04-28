@@ -4,20 +4,16 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+import random
 
 import Enemy
 import Hero
 import dbsetup
-
 from texttools import *
-
 import numpy
 import csv
-
-import numpy
-import csv
-
 import pandas as pd
+
 
 # game class makes the game work instantiates all other classes at some point.
 
@@ -29,17 +25,30 @@ class Game():
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
-        self.debugging = 0
-        centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
-        self.debugging = input()
+        """
+        This snippet was made to create a more readable and intuitive
+        start menu. This loops through until correct input is given to then
+        further yourself in the game.
+        """
+        correctInput = 0
+        while(correctInput == 0):
+            centerprint('Would you like to play in Debug Mode? [Y] for yes, [N] for no')
+            self.debugging = input()
 
-        if self.debugging != '1':
-            self.debugging = False
+            if self.debugging.upper() == 'Y':
+                self.debugging = 1
+                correctInput = 1
+            elif self.debugging.upper() == 'N':
+                self.debugging = 0
+                correctInput = 1
+            else:
+                centerprint("I'm sorry that is not a correct input. Please try again.\n")
+
 
         # option to print out useful information
-        centerprint('View information printout? [1] for yes, [ENTER] for no')
+        centerprint('View information printout? [Y] for yes, [N] for no')
         infoPrint = input()
-        if infoPrint == '1':
+        if infoPrint.upper() == 'Y':
             print('\n')
             with open('./info.txt', 'r') as f:
                 information = f.read()
@@ -52,10 +61,22 @@ class Game():
             for x in range(0,len(mNames),1):
                 print("\t"+mNames[x] + " " + lNames[x])
         # riddle mode 0 - optional, 1 - mandatory
-        centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
-        self.riddlemode = input()
-        if self.riddlemode == '':
-            self.riddlemode = 1
+        # preset riddle mode to mandatory
+        """
+        This again makes a continuous loop to get correct input from
+        the user to play with riddles on.
+        """
+        while(correctInput == 1):
+            centerprint('Would you like to play with riddles? [Y] for yes, [N] for no')
+            self.riddlemode = input()
+            if self.riddlemode.upper() == 'N':
+                self.riddlemode = 0
+                correctInput = 0
+            elif self.riddlemode.upper() == 'Y':
+                self.riddlemode = 1
+                correctInput = 0
+            else:
+                centerprint("I'm sorry that is not a correct input. Please try again.\n")
 
         # provides a way to speed through battle (risky!)
         self.autoattack = 0
@@ -176,9 +197,37 @@ class Game():
         marqueeprint('[ENTER NAME]')
         centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
         ournewhero.name = input()
+        """
+        If the user does not plave their name in
+        a random name is generated for them with the randomName()
+        function. 
+        """
         if ournewhero.name == '':
-            ournewhero.name = 'Sir Lazy'
+            ournewhero.name = self.randomName()
         return ournewhero
+
+    """@brief Creates a random name for the game
+
+    This is the random name generator function. The function creates two random
+    integers to use as the row read in the csv file. It then removes the brackets
+    and '' from the data and concatenates the string.
+    @param : none
+    @return : A concatenated string with a random name
+    """
+    def randomName(self):
+        randPrefix = random.randint(1,26)
+        randSuffix = random.randint(1,29)
+        with open('csv/MedievalPrefiexes.csv','rt') as prefixes:
+            csv_reader1 = csv.reader(prefixes)
+            prefixRows = list(csv_reader1)
+        with open('csv/MedievalSuffixes.csv','rt') as suffixes:
+            csv_reader2 = csv.reader(suffixes)
+            suffixRows = list(csv_reader2)
+        prefixName = prefixRows[randPrefix]
+        suffixName = suffixRows[randSuffix]
+        resPrefix = str(prefixName)[2:-2]
+        resSuffix = str(suffixName)[2:-2]
+        return resPrefix + " " + resSuffix
 
     # brings game back after death.
     def gameloop(self):
