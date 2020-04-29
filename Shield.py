@@ -5,7 +5,7 @@ import random
 # TODO: Make shield, armor, weapon all have similar repair methods.
 class Shield:
     # level,class,name,type,basedef,durability
-    def __init__(self, shieldlevel, shieldclass, shieldname, shieldtype, shieldbasedefn, shielddur):
+    def __init__(self, shieldlevel, shieldclass, shieldname, shieldtype, shieldbasedefn, shielddur, shieldequipped):
         # shield level
         self.level = shieldlevel
 
@@ -60,6 +60,17 @@ class Shield:
         elif self.quality == 'Legendary':
             self.maxdur = int(self.maxdur * 2)
         self.dur = self.maxdur
+
+        # equipped
+        self.isEquipped = shieldequipped
+    
+    # set equip status
+    def setIsEquipped(self, shieldequipped):
+        self.isEquipped = shieldequipped
+    
+    # get equip status
+    def getIsEquipped(self):
+        return self.isEquipped
 
     # damage durability, and check to see if broken
     def damagedur(self, aug, curve):

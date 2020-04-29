@@ -59,8 +59,14 @@ class Hero:
         self.items = []
         self.activeitem = 0
 
-        # Gear container
-        self.gear = []
+        # Weapons
+        self.weapons = []
+
+        # Armor
+        self.armor = []
+
+        # Shields
+        self.shields = []
 
         # Keep track of battle count
         self.battlecount = 0
@@ -74,9 +80,12 @@ class Hero:
         self.defcurve = 0
 
         # equip objects
-        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
-        self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10)
-        self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
+        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none', True)
+        self.weapons.append(self.ourweapon)
+        self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10, True)
+        self.armor.append(self.ourarmor)
+        self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20, True)
+        self.shields.append(self.ourshield)
         self.ouritem = Item.Item(0, 0, 0, 0, 0)
         self.isbattling = False
 
@@ -88,7 +97,7 @@ class Hero:
 
     def toggleAutosave(self):
         self.autosaveOn = not self.autosaveOn
-        
+
     # Heals user up to max health
     def heal(self, hpup):
         centerprint('You heal for ' + str(int(hpup)) + ' HP')
@@ -176,6 +185,13 @@ class Hero:
             return False
 
     # applies hero's perks
+    """@brief Sets stats to hero chosen
+
+    This function sets all of the various stats 
+    for the specific hero chosen.
+    @param none
+    @return none
+    """
     def heroperks(self):
         if self.ourclass == 'warrior':
             # more HP
@@ -268,6 +284,20 @@ class Hero:
             self.levelupaug = .7
             # high crit chance boost
             self.critaug = 4
+        elif self.ourclass == 'knight':
+            # best health because of armor
+            self.hpaug = 18
+            # low dodge due to weight
+            self.dodgeaug = 3
+            # high DEF due to armor
+            self.defaug = 14
+            # decent attack
+            self.atkaug = 3
+            # med leveling capability
+            self.levelupaug = .65
+            # low crit chance boost
+            self.crtiaug = 1
+
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug
@@ -343,7 +373,7 @@ class Hero:
         newdb.conn.close()
         new_weapon_data = rows[0]
         ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
+                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6], False)
         return ournewweapon
 
     # fetches a new armor for hero
@@ -355,7 +385,7 @@ class Hero:
         newdb.conn.close()
         new_armor_data = rows[0]
         ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
-                                  new_armor_data[4], new_armor_data[5])
+                                  new_armor_data[4], new_armor_data[5], False)
         return ournewarmor
 
     # fetches a new shield for hero
@@ -367,7 +397,7 @@ class Hero:
         newdb.conn.close()
         new_shield_data = rows[0]
         ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
-                                     new_shield_data[4], new_shield_data[5])
+                                     new_shield_data[4], new_shield_data[5], False)
         return ournewshield
 
     # fetches a new item for hero
