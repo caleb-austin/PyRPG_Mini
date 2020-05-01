@@ -1,6 +1,7 @@
 This file is a representation of how each group member individually tested their code. If you want the actual metrics check the metrics folder within this test coverage folder.
 
 Caleb Austin:
+  -
   - Created web application shell
   - Created a random name generator
   - Added a new knight character
