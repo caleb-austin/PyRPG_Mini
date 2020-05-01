@@ -158,7 +158,7 @@ class Game():
         elif ourclass == 'b':
             ourclass = 'barbarian'
             centerprint('Class set to barbarian')
-        elif ourclass == 'k'
+        elif ourclass == 'k':
             ourclass == 'knight'
             centerprint('Class set to knight')
         else:
