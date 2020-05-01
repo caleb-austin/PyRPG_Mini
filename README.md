@@ -1,5 +1,9 @@
 # PyRPG_Mini
 
+Doxygen
+ -
+Our group used Doxygen to create documentation
+
 A text RPG written in Python 3 with many technical RPG features you'd want.
 ## Requirements / Dependencies
 * Python3
