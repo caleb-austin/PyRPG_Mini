@@ -158,7 +158,7 @@ class Game():
         elif ourclass == 'b':
             ourclass = 'barbarian'
             centerprint('Class set to barbarian')
-        elif ourclass == 'k'
+        elif ourclass == 'k':
             ourclass == 'knight'
             centerprint('Class set to knight')
         else:
@@ -708,12 +708,12 @@ class Game():
 
     #begin caesar cipher game
     def caesar(self):
-        	"""
-        	This function begins a new caesar cipher game. It will add/subtract from the player's health
-        	and update the database and csv with a new high score if necessary
-        	@param:none
-        	@return none
-        	"""
+        """
+        This function begins a new caesar cipher game. It will add/subtract from the player's health
+        and update the database and csv with a new high score if necessary
+        @param:none
+        @return none
+        """
         centerprint("A large board appears before you and asks you to decipher a set of words")
         centerprint("But before you do, you must decide how much HP to bet")
         centerprint("For each word you answer incorrectly, you will lose that amount health points")
