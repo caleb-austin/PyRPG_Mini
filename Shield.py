@@ -66,10 +66,20 @@ class Shield:
     
     # set equip status
     def setIsEquipped(self, shieldequipped):
+        """
+        Sets Shield equip status, True/False.
+
+         @param shieldequipped Set Shield equipped to True/False.
+        """
         self.isEquipped = shieldequipped
     
     # get equip status
     def getIsEquipped(self):
+        """
+        Get Shield equip status, True/False.
+
+        @return True/False whether current Shield is equipped.
+        """
         return self.isEquipped
 
     # damage durability, and check to see if broken

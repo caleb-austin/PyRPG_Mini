@@ -58,10 +58,20 @@ class Weapon:
 
     # set equip status
     def setIsEquipped(self, weaponequipped):
+        """
+        Sets Weapon equip status, True/False.
+
+        @param weaponequipped Set Weapon equipped to True/False.
+        """
         self.isEquipped = weaponequipped
     
     # get equip status
     def getIsEquipped(self):
+        """
+        Get Weapon equip status, True/False.
+
+        @return True/False whether current Weapon is equipped.
+        """
         return self.isEquipped
 
     # damage durability, and check to see if broken
